@@ -2,9 +2,8 @@ import { useState, useCallback } from 'react'
 import Header from './components/Header'
 import DietaryChips from './components/DietaryChips'
 import MealGrid from './components/MealGrid'
+import { generatePlan, regenerateMeal } from './meals'
 import './App.css'
-
-const DAYS = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
 
 function getTodayIndex() {
   const jsDay = new Date().getDay()
@@ -13,6 +12,7 @@ function getTodayIndex() {
 
 export default function App() {
   const [preferences, setPreferences] = useState([])
+  const [calorieTarget, setCalorieTarget] = useState(null)
   const [plan, setPlan] = useState(null)
   const [loading, setLoading] = useState(false)
   const [regeneratingMeal, setRegeneratingMeal] = useState(null)
@@ -26,68 +26,47 @@ export default function App() {
       }, 0)
     : 0
 
-  const generatePlan = useCallback(async () => {
+  const handleGenerate = useCallback(() => {
     setLoading(true)
     setPlan(null)
-    try {
-      const res = await fetch('/api/generate-plan', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ preferences }),
-      })
-      if (!res.ok) throw new Error('Failed to generate plan')
-      const data = await res.json()
-      setPlan(data)
-    } catch (err) {
-      console.error(err)
-      alert('Failed to generate meal plan. Check that your API key is set and the server is running.')
-    } finally {
+    // Small delay for skeleton UX
+    setTimeout(() => {
+      const newPlan = generatePlan(preferences, calorieTarget)
+      setPlan(newPlan)
       setLoading(false)
-    }
-  }, [preferences])
+    }, 600)
+  }, [preferences, calorieTarget])
 
-  const regenerateMeal = useCallback(async (dayIndex, mealType) => {
+  const handleRegenerate = useCallback((dayIndex, mealType) => {
     if (!plan) return
-    const day = plan.days[dayIndex]
-    const currentMeal = day.meals[mealType]
+    const currentMeal = plan.days[dayIndex].meals[mealType]
     const key = `${dayIndex}-${mealType}`
 
     setRegeneratingMeal(key)
-    try {
-      const res = await fetch('/api/regenerate-meal', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          day: day.day,
-          mealType,
-          preferences,
-          currentMealName: currentMeal.name,
-        }),
-      })
-      if (!res.ok) throw new Error('Failed to regenerate meal')
-      const newMeal = await res.json()
-
+    setTimeout(() => {
+      const newMeal = regenerateMeal(mealType, preferences, currentMeal.name, calorieTarget)
       setPlan(prev => {
         const updated = JSON.parse(JSON.stringify(prev))
         updated.days[dayIndex].meals[mealType] = newMeal
         return updated
       })
-    } catch (err) {
-      console.error(err)
-      alert('Failed to regenerate meal.')
-    } finally {
       setRegeneratingMeal(null)
-    }
-  }, [plan, preferences])
+    }, 400)
+  }, [plan, preferences, calorieTarget])
 
   return (
     <div className="app">
-      <Header weeklyCalories={weeklyCalories} hasPlan={!!plan} />
+      <Header
+        weeklyCalories={weeklyCalories}
+        hasPlan={!!plan}
+        calorieTarget={calorieTarget}
+        onCalorieTargetChange={setCalorieTarget}
+      />
       <main className="main">
         <DietaryChips selected={preferences} onChange={setPreferences} />
         <button
           className="generate-btn"
-          onClick={generatePlan}
+          onClick={handleGenerate}
           disabled={loading}
         >
           {loading ? 'Generating…' : plan ? 'Regenerate Week Plan' : 'Generate Week Plan'}
@@ -97,7 +76,7 @@ export default function App() {
           loading={loading}
           todayIndex={todayIndex}
           regeneratingMeal={regeneratingMeal}
-          onRegenerateMeal={regenerateMeal}
+          onRegenerateMeal={handleRegenerate}
         />
       </main>
     </div>
