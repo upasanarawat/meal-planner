@@ -1,0 +1,97 @@
+.meal-card {
+  background: var(--white);
+  border-radius: var(--radius-sm);
+  padding: 14px;
+  height: 160px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  box-shadow: var(--shadow-sm);
+  transition: box-shadow 0.2s ease, opacity 0.2s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.meal-card:hover {
+  box-shadow: var(--shadow-md);
+}
+
+.meal-card-loading {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.meal-card-loading::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent 25%, rgba(255,255,255,0.4) 50%, transparent 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s ease-in-out infinite;
+}
+
+@keyframes shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+.meal-card-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.meal-emoji {
+  font-size: 24px;
+  line-height: 1;
+}
+
+.meal-refresh {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: none;
+  background: var(--parchment);
+  font-size: 16px;
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s ease;
+  opacity: 0;
+}
+
+.meal-card:hover .meal-refresh {
+  opacity: 1;
+}
+
+.meal-refresh:hover {
+  background: var(--forest);
+  color: var(--white);
+}
+
+.meal-name {
+  font-family: var(--font-serif);
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.2;
+  color: var(--text-primary);
+  margin-top: 2px;
+}
+
+.meal-desc {
+  font-size: 12px;
+  color: var(--text-secondary);
+  line-height: 1.4;
+  flex: 1;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+.meal-cal {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--forest);
+}
