@@ -8,9 +8,9 @@ const MEALS_DB = {
     { emoji: '🧇', name: 'Belgian Waffles', description: 'Golden waffles with strawberries and a drizzle of honey', calories: 420, tags: ['vegetarian'] },
     { emoji: '🥐', name: 'Croissant & Jam', description: 'Buttery croissant with apricot jam and fresh orange juice', calories: 380, tags: ['vegetarian'] },
     { emoji: '🍌', name: 'Peanut Butter Smoothie', description: 'Banana peanut butter smoothie with oat milk and cinnamon', calories: 310, tags: ['vegetarian', 'vegan', 'dairy-free', 'gluten-free', 'high-protein'] },
-    { emoji: '🥚', name: 'Eggs Benedict', description: 'Poached eggs on English muffin with hollandaise and spinach', calories: 480, tags: ['vegetarian'] },
+    { emoji: '🥚', name: 'Eggs Benedict', description: 'Poached eggs on English muffin with hollandaise and spinach', calories: 560, tags: ['vegetarian'] },
     { emoji: '🫓', name: 'Greek Yogurt Parfait', description: 'Thick yogurt layered with honey, walnuts, and mixed berries', calories: 290, tags: ['vegetarian', 'gluten-free', 'high-protein', 'mediterranean'] },
-    { emoji: '🌯', name: 'Breakfast Burrito', description: 'Flour tortilla with eggs, black beans, salsa, and cheese', calories: 520, tags: ['high-protein'] },
+    { emoji: '🌯', name: 'Breakfast Burrito', description: 'Flour tortilla with eggs, black beans, salsa, and cheese', calories: 580, tags: ['high-protein'] },
     { emoji: '🍞', name: 'French Toast', description: 'Cinnamon French toast with powdered sugar and fresh berries', calories: 440, tags: ['vegetarian'] },
     { emoji: '🥗', name: 'Light Fruit Bowl', description: 'Seasonal fresh fruits with a squeeze of lime juice', calories: 180, tags: ['vegetarian', 'vegan', 'dairy-free', 'gluten-free', 'low-carb'] },
     { emoji: '🍵', name: 'Matcha Chia Pudding', description: 'Creamy matcha chia pudding topped with toasted coconut flakes', calories: 220, tags: ['vegetarian', 'vegan', 'dairy-free', 'gluten-free'] },
@@ -51,7 +51,7 @@ const MEALS_DB = {
     { emoji: '🍞', name: 'Cinnamon Raisin Toast', description: 'Thick cinnamon raisin bread toasted with butter and jam', calories: 320, tags: ['vegetarian'] },
     { emoji: '🥚', name: 'Egg White Veggie Wrap', description: 'Egg whites with spinach, tomato, and feta in a wheat wrap', calories: 260, tags: ['vegetarian', 'high-protein', 'low-carb'] },
     { emoji: '🫕', name: 'Turkish Eggs', description: 'Poached eggs over garlicky yogurt with chili butter drizzle', calories: 340, tags: ['vegetarian', 'gluten-free', 'keto', 'low-carb', 'mediterranean'] },
-    { emoji: '🥐', name: 'Ham & Cheese Croissant', description: 'Flaky croissant filled with smoked ham and melted gruyère cheese', calories: 450, tags: ['high-protein'] },
+    { emoji: '🥐', name: 'Ham & Cheese Croissant', description: 'Flaky croissant filled with smoked ham and melted gruyère cheese', calories: 520, tags: ['high-protein'] },
     { emoji: '🍇', name: 'Bircher Muesli', description: 'Swiss-style muesli soaked overnight with apple and yogurt', calories: 330, tags: ['vegetarian', 'mediterranean'] },
     { emoji: '🥤', name: 'Berry Protein Shake', description: 'Mixed berry shake with whey protein, banana, and almond milk', calories: 300, tags: ['vegetarian', 'gluten-free', 'high-protein'] },
     { emoji: '🌮', name: 'Breakfast Taco', description: 'Corn tortilla with scrambled eggs, avocado, and pico de gallo', calories: 330, tags: ['vegetarian', 'gluten-free', 'high-protein'] },
@@ -61,7 +61,7 @@ const MEALS_DB = {
     { emoji: '🧀', name: 'Gruyère & Herb Scramble', description: 'Creamy scrambled eggs with gruyère, chives, and sourdough toast', calories: 410, tags: ['vegetarian', 'high-protein'] },
     { emoji: '🍎', name: 'Apple Cinnamon Oatmeal', description: 'Warm oatmeal with diced apple, cinnamon, and brown sugar', calories: 310, tags: ['vegetarian', 'vegan', 'dairy-free'] },
     { emoji: '🥑', name: 'Smashed Avo & Feta', description: 'Multigrain toast with smashed avocado, feta, and chili flakes', calories: 370, tags: ['vegetarian', 'high-protein', 'mediterranean'] },
-    { emoji: '🍳', name: 'Corned Beef Hash', description: 'Crispy corned beef hash with potatoes and a sunny-side egg', calories: 520, tags: ['gluten-free', 'dairy-free', 'high-protein'] },
+    { emoji: '🍳', name: 'Corned Beef Hash', description: 'Crispy corned beef hash with potatoes and a sunny-side egg', calories: 620, tags: ['gluten-free', 'dairy-free', 'high-protein'] },
     { emoji: '🫐', name: 'Blueberry Yogurt Bowl', description: 'Greek yogurt with blueberries, flax seeds, and drizzled honey', calories: 260, tags: ['vegetarian', 'gluten-free', 'high-protein'] },
     { emoji: '🥖', name: 'French Baguette & Butter', description: 'Warm crusty baguette with salted butter and strawberry preserves', calories: 340, tags: ['vegetarian'] },
     { emoji: '🍳', name: 'Eggs Florentine', description: 'Poached eggs on toasted muffin with wilted spinach and hollandaise', calories: 440, tags: ['vegetarian', 'high-protein'] },
@@ -78,9 +78,9 @@ const MEALS_DB = {
     { emoji: '🥣', name: 'Quinoa Breakfast Bowl', description: 'Warm quinoa with almond milk, berries, and toasted coconut', calories: 320, tags: ['vegetarian', 'vegan', 'dairy-free', 'gluten-free', 'high-protein'] },
     { emoji: '🍳', name: 'Smoked Salmon Scramble', description: 'Scrambled eggs with smoked salmon, dill, and cream cheese', calories: 400, tags: ['gluten-free', 'high-protein', 'keto', 'low-carb'] },
     { emoji: '🥑', name: 'Avo & Kimchi Toast', description: 'Toasted sourdough with avocado, kimchi, and sesame seeds', calories: 330, tags: ['vegetarian', 'vegan', 'dairy-free'] },
-    { emoji: '🫘', name: 'Full English Breakfast', description: 'Eggs, bacon, sausage, beans, toast, and grilled tomatoes', calories: 550, tags: ['high-protein'] },
+    { emoji: '🫘', name: 'Full English Breakfast', description: 'Eggs, bacon, sausage, beans, toast, and grilled tomatoes', calories: 750, tags: ['high-protein'] },
     { emoji: '🥝', name: 'Green Smoothie Bowl', description: 'Thick spinach, kiwi, and banana blend topped with granola', calories: 290, tags: ['vegetarian', 'vegan', 'dairy-free', 'gluten-free'] },
-    { emoji: '🧀', name: 'Croque Monsieur', description: 'Grilled ham and cheese sandwich with creamy béchamel sauce', calories: 490, tags: ['high-protein'] },
+    { emoji: '🧀', name: 'Croque Monsieur', description: 'Grilled ham and cheese sandwich with creamy béchamel sauce', calories: 580, tags: ['high-protein'] },
     { emoji: '🍠', name: 'Sweet Potato Toast', description: 'Sliced sweet potato toasted and topped with almond butter', calories: 250, tags: ['vegetarian', 'vegan', 'dairy-free', 'gluten-free', 'low-carb'] },
     { emoji: '🥞', name: 'Buckwheat Crepes', description: 'Thin buckwheat crepes with ham, cheese, and a fried egg', calories: 410, tags: ['gluten-free', 'high-protein'] },
     { emoji: '🍳', name: 'Frittata Slice', description: 'Baked egg frittata with zucchini, red pepper, and goat cheese', calories: 330, tags: ['vegetarian', 'gluten-free', 'keto', 'low-carb', 'high-protein', 'mediterranean'] },
@@ -100,6 +100,9 @@ const MEALS_DB = {
     { emoji: '🥣', name: 'Porridge with Dates', description: 'Warm oat porridge with medjool dates, walnuts, and cinnamon', calories: 340, tags: ['vegetarian', 'vegan', 'dairy-free'] },
     { emoji: '🍳', name: 'Egg Fried Rice', description: 'Leftover rice stir-fried with egg, peas, and sesame oil', calories: 360, tags: ['dairy-free', 'gluten-free', 'high-protein'] },
     { emoji: '🫓', name: 'Halloumi & Tomato Plate', description: 'Grilled halloumi with roasted tomatoes, olives, and warm bread', calories: 420, tags: ['vegetarian', 'gluten-free', 'mediterranean', 'high-protein'] },
+    { emoji: '🥞', name: 'Lumberjack Stack', description: 'Triple pancakes with bacon, eggs, sausage, and maple syrup', calories: 850, tags: ['high-protein'] },
+    { emoji: '🌯', name: 'Loaded Breakfast Burrito', description: 'Giant burrito with chorizo, eggs, potatoes, cheese, and guacamole', calories: 780, tags: ['high-protein'] },
+    { emoji: '🍳', name: 'Country Breakfast Platter', description: 'Two eggs, biscuits, gravy, bacon, hash browns, and orange juice', calories: 920, tags: ['high-protein'] },
   ],
   lunch: [
     { emoji: '🥗', name: 'Mediterranean Salad', description: 'Mixed greens with feta, olives, cucumber, and lemon dressing', calories: 420, tags: ['vegetarian', 'gluten-free', 'low-carb', 'mediterranean'] },
@@ -121,7 +124,7 @@ const MEALS_DB = {
     { emoji: '🥪', name: 'Turkey Club Sandwich', description: 'Triple-decker with turkey, bacon, lettuce, tomato, and mayo', calories: 540, tags: ['high-protein'] },
     { emoji: '🍲', name: 'Minestrone Soup', description: 'Italian vegetable soup with pasta, beans, and parmesan cheese', calories: 350, tags: ['vegetarian', 'mediterranean'] },
     { emoji: '🫔', name: 'Fish Taco Bowl', description: 'Grilled fish over rice with mango salsa and pickled onions', calories: 460, tags: ['gluten-free', 'dairy-free', 'high-protein'] },
-    { emoji: '🥙', name: 'Shawarma Plate', description: 'Spiced chicken shawarma with rice, hummus, and garlic sauce', calories: 580, tags: ['dairy-free', 'high-protein'] },
+    { emoji: '🥙', name: 'Shawarma Plate', description: 'Spiced chicken shawarma with rice, hummus, and garlic sauce', calories: 650, tags: ['dairy-free', 'high-protein'] },
     { emoji: '🍣', name: 'Tuna Poke Bowl', description: 'Fresh ahi tuna over sushi rice with cucumber and sesame', calories: 480, tags: ['gluten-free', 'dairy-free', 'high-protein'] },
     { emoji: '🥗', name: 'Kale Caesar Salad', description: 'Massaged kale with parmesan, croutons, and creamy Caesar dressing', calories: 380, tags: ['vegetarian'] },
     { emoji: '🌯', name: 'Veggie Burrito Bowl', description: 'Rice bowl with black beans, corn, guacamole, and pico de gallo', calories: 490, tags: ['vegetarian', 'vegan', 'dairy-free', 'gluten-free', 'high-protein'] },
@@ -140,7 +143,7 @@ const MEALS_DB = {
     { emoji: '🍜', name: 'Udon Noodle Soup', description: 'Thick udon noodles in dashi broth with tofu and scallions', calories: 400, tags: ['vegetarian', 'vegan', 'dairy-free'] },
     { emoji: '🥪', name: 'Grilled Cheese & Tomato Soup', description: 'Classic grilled cheese sandwich with a cup of tomato soup', calories: 480, tags: ['vegetarian'] },
     { emoji: '🍲', name: 'Black Bean Soup', description: 'Smoky black bean soup with cumin, lime, and cilantro', calories: 360, tags: ['vegetarian', 'vegan', 'dairy-free', 'gluten-free', 'high-protein'] },
-    { emoji: '🥘', name: 'Paella', description: 'Spanish saffron rice with shrimp, mussels, and chorizo', calories: 580, tags: ['gluten-free', 'dairy-free', 'high-protein', 'mediterranean'] },
+    { emoji: '🥘', name: 'Paella', description: 'Spanish saffron rice with shrimp, mussels, and chorizo', calories: 680, tags: ['gluten-free', 'dairy-free', 'high-protein', 'mediterranean'] },
     { emoji: '🫔', name: 'Carnitas Tacos', description: 'Slow-cooked pulled pork tacos with onion, cilantro, and salsa', calories: 510, tags: ['gluten-free', 'dairy-free', 'high-protein'] },
     { emoji: '🥗', name: 'Waldorf Salad', description: 'Crisp apple, celery, grapes, and walnuts with creamy dressing', calories: 350, tags: ['vegetarian', 'gluten-free'] },
     { emoji: '🍝', name: 'Cacio e Pepe', description: 'Simple Roman pasta with pecorino cheese and black pepper', calories: 450, tags: ['vegetarian', 'mediterranean'] },
@@ -161,7 +164,7 @@ const MEALS_DB = {
     { emoji: '🍲', name: 'Pozole Verde', description: 'Mexican hominy soup with chicken, tomatillos, and radish garnish', calories: 400, tags: ['gluten-free', 'dairy-free', 'high-protein'] },
     { emoji: '🥗', name: 'Tabbouleh', description: 'Bulgur wheat salad with parsley, tomato, mint, and lemon juice', calories: 280, tags: ['vegetarian', 'vegan', 'dairy-free', 'mediterranean'] },
     { emoji: '🌮', name: 'Chicken Tinga Tacos', description: 'Shredded chicken in chipotle tomato sauce on corn tortillas', calories: 440, tags: ['gluten-free', 'dairy-free', 'high-protein'] },
-    { emoji: '🍛', name: 'Massaman Curry', description: 'Rich peanut curry with chicken, potatoes, and jasmine rice', calories: 560, tags: ['gluten-free', 'dairy-free', 'high-protein'] },
+    { emoji: '🍛', name: 'Massaman Curry', description: 'Rich peanut curry with chicken, potatoes, and jasmine rice', calories: 670, tags: ['gluten-free', 'dairy-free', 'high-protein'] },
     { emoji: '🥙', name: 'Chicken Souvlaki Wrap', description: 'Grilled chicken in pita with tzatziki, tomato, and red onion', calories: 470, tags: ['high-protein', 'mediterranean'] },
     { emoji: '🍜', name: 'Pad See Ew', description: 'Wide rice noodles stir-fried with chicken, broccoli, and soy', calories: 490, tags: ['dairy-free', 'high-protein'] },
     { emoji: '🥪', name: 'Tuna Melt', description: 'Open-faced tuna salad sandwich with melted cheddar on sourdough', calories: 460, tags: ['high-protein'] },
@@ -172,7 +175,7 @@ const MEALS_DB = {
     { emoji: '🍝', name: 'Pasta Primavera', description: 'Penne with sautéed seasonal vegetables and light garlic sauce', calories: 410, tags: ['vegetarian', 'vegan', 'dairy-free', 'mediterranean'] },
     { emoji: '🫔', name: 'Veggie Quesadilla', description: 'Flour tortilla with beans, peppers, cheese, and sour cream', calories: 450, tags: ['vegetarian'] },
     { emoji: '🥬', name: 'Larb Lettuce Cups', description: 'Thai minced chicken in lettuce cups with mint and lime', calories: 310, tags: ['gluten-free', 'dairy-free', 'low-carb', 'high-protein'] },
-    { emoji: '🍛', name: 'Butter Chicken', description: 'Tender chicken in creamy tomato sauce with fragrant basmati rice', calories: 550, tags: ['gluten-free', 'high-protein'] },
+    { emoji: '🍛', name: 'Butter Chicken', description: 'Tender chicken in creamy tomato sauce with fragrant basmati rice', calories: 640, tags: ['gluten-free', 'high-protein'] },
     { emoji: '🥪', name: 'Falafel Sandwich', description: 'Crispy falafel in flatbread with tahini, veggies, and pickles', calories: 470, tags: ['vegetarian', 'vegan', 'dairy-free', 'mediterranean'] },
     { emoji: '🍲', name: 'Corn Chowder', description: 'Creamy sweet corn chowder with potatoes, bacon, and chives', calories: 400, tags: ['gluten-free'] },
     { emoji: '🥗', name: 'Quinoa Taco Salad', description: 'Quinoa with black beans, corn, tomato, and chipotle dressing', calories: 430, tags: ['vegetarian', 'vegan', 'dairy-free', 'gluten-free', 'high-protein'] },
@@ -187,7 +190,7 @@ const MEALS_DB = {
     { emoji: '🌯', name: 'Teriyaki Chicken Wrap', description: 'Teriyaki glazed chicken with rice, edamame, and spicy mayo', calories: 490, tags: ['dairy-free', 'high-protein'] },
     { emoji: '🍛', name: 'Chana Masala', description: 'Spiced chickpea stew with tomatoes, ginger, and cilantro naan', calories: 440, tags: ['vegetarian', 'vegan', 'dairy-free', 'high-protein'] },
     { emoji: '🥬', name: 'Spring Rolls', description: 'Fresh rice paper rolls with shrimp, herbs, and peanut sauce', calories: 300, tags: ['gluten-free', 'dairy-free', 'high-protein'] },
-    { emoji: '🍝', name: 'Mac & Cheese', description: 'Creamy baked macaroni with sharp cheddar and breadcrumb topping', calories: 520, tags: ['vegetarian'] },
+    { emoji: '🍝', name: 'Mac & Cheese', description: 'Creamy baked macaroni with sharp cheddar and breadcrumb topping', calories: 620, tags: ['vegetarian'] },
     { emoji: '🫕', name: 'Hot & Sour Soup', description: 'Spicy and tangy Chinese soup with tofu, mushrooms, and egg', calories: 280, tags: ['dairy-free'] },
     { emoji: '🥗', name: 'Roasted Beet Salad', description: 'Roasted beets with goat cheese, arugula, and candied walnuts', calories: 360, tags: ['vegetarian', 'gluten-free', 'mediterranean'] },
     { emoji: '🍲', name: 'Miso Soup & Onigiri', description: 'Silky miso soup with two rice balls filled with pickled plum', calories: 340, tags: ['vegetarian', 'vegan', 'dairy-free'] },
@@ -202,26 +205,29 @@ const MEALS_DB = {
     { emoji: '🥬', name: 'Sesame Ginger Salad', description: 'Crunchy Asian salad with tofu, edamame, and sesame ginger dressing', calories: 350, tags: ['vegetarian', 'vegan', 'dairy-free', 'gluten-free'] },
     { emoji: '🍲', name: 'Ribollita', description: 'Tuscan bread and bean soup with kale, vegetables, and olive oil', calories: 370, tags: ['vegetarian', 'vegan', 'dairy-free', 'mediterranean'] },
     { emoji: '🥪', name: 'Smoked Turkey Wrap', description: 'Smoked turkey with cranberry sauce, brie, and arugula in wrap', calories: 430, tags: ['high-protein'] },
+    { emoji: '🍝', name: 'Loaded Nachos', description: 'Tortilla chips piled with beef, cheese, beans, and sour cream', calories: 780, tags: ['gluten-free', 'high-protein'] },
+    { emoji: '🌯', name: 'Chipotle Burrito Bowl', description: 'Double protein bowl with rice, beans, guacamole, and extra cheese', calories: 850, tags: ['gluten-free', 'high-protein'] },
+    { emoji: '🥙', name: 'Loaded Shawarma Platter', description: 'Double meat shawarma with hummus, rice, salads, and garlic sauce', calories: 900, tags: ['dairy-free', 'high-protein'] },
   ],
   dinner: [
     { emoji: '🍝', name: 'Spaghetti Bolognese', description: 'Classic beef ragu over spaghetti with fresh parmesan cheese', calories: 680, tags: ['high-protein'] },
     { emoji: '🍗', name: 'Herb Roast Chicken', description: 'Roasted chicken thighs with rosemary potatoes and green beans', calories: 620, tags: ['gluten-free', 'dairy-free', 'high-protein', 'low-carb', 'keto'] },
     { emoji: '🐟', name: 'Grilled Salmon', description: 'Pan-seared salmon with asparagus, lemon butter, and wild rice', calories: 580, tags: ['gluten-free', 'high-protein', 'low-carb', 'keto', 'mediterranean'] },
     { emoji: '🍛', name: 'Thai Green Curry', description: 'Coconut green curry with tofu, bamboo shoots, and jasmine rice', calories: 550, tags: ['vegetarian', 'vegan', 'dairy-free', 'gluten-free'] },
-    { emoji: '🥩', name: 'Steak & Vegetables', description: 'Grilled sirloin with roasted sweet potato and broccolini', calories: 720, tags: ['gluten-free', 'dairy-free', 'high-protein', 'low-carb', 'keto'] },
+    { emoji: '🥩', name: 'Steak & Vegetables', description: 'Grilled sirloin with roasted sweet potato and broccolini', calories: 780, tags: ['gluten-free', 'dairy-free', 'high-protein', 'low-carb', 'keto'] },
     { emoji: '🍕', name: 'Margherita Pizza', description: 'Wood-fired pizza with San Marzano tomatoes, mozzarella, and basil', calories: 650, tags: ['vegetarian', 'mediterranean'] },
     { emoji: '🌮', name: 'Fish Tacos', description: 'Battered cod tacos with cabbage slaw and chipotle mayo', calories: 540, tags: ['dairy-free', 'high-protein'] },
     { emoji: '🍱', name: 'Teriyaki Bowl', description: 'Teriyaki glazed chicken over rice with steamed broccoli', calories: 600, tags: ['dairy-free', 'high-protein'] },
     { emoji: '🫕', name: 'Mushroom Risotto', description: 'Creamy arborio rice with wild mushrooms, thyme, and parmesan', calories: 560, tags: ['vegetarian', 'gluten-free', 'mediterranean'] },
     { emoji: '🥘', name: 'Lamb Tagine', description: 'Slow-cooked lamb with apricots, almonds, and fluffy couscous', calories: 640, tags: ['gluten-free', 'dairy-free', 'high-protein', 'mediterranean'] },
-    { emoji: '🍔', name: 'Gourmet Burger', description: 'Brioche bun with grass-fed beef, caramelized onions, and truffle aioli', calories: 710, tags: ['high-protein'] },
+    { emoji: '🍔', name: 'Gourmet Burger', description: 'Brioche bun with grass-fed beef, caramelized onions, and truffle aioli', calories: 780, tags: ['high-protein'] },
     { emoji: '🧆', name: 'Eggplant Parmesan', description: 'Baked eggplant with marinara sauce, mozzarella, and fresh basil', calories: 520, tags: ['vegetarian', 'mediterranean'] },
     { emoji: '🥦', name: 'Stuffed Bell Peppers', description: 'Bell peppers stuffed with quinoa, black beans, and corn', calories: 420, tags: ['vegetarian', 'vegan', 'dairy-free', 'gluten-free', 'high-protein'] },
     { emoji: '🐠', name: 'Lemon Herb Cod', description: 'Baked cod fillet with roasted zucchini and cherry tomatoes', calories: 380, tags: ['gluten-free', 'dairy-free', 'high-protein', 'low-carb', 'keto', 'mediterranean'] },
-    { emoji: '🍗', name: 'Chicken Parmesan', description: 'Breaded chicken cutlet with marinara, mozzarella, and spaghetti', calories: 720, tags: ['high-protein'] },
+    { emoji: '🍗', name: 'Chicken Parmesan', description: 'Breaded chicken cutlet with marinara, mozzarella, and spaghetti', calories: 820, tags: ['high-protein'] },
     { emoji: '🐟', name: 'Miso Glazed Salmon', description: 'White miso marinated salmon with steamed bok choy and rice', calories: 540, tags: ['dairy-free', 'gluten-free', 'high-protein'] },
     { emoji: '🍛', name: 'Butter Chicken Dinner', description: 'Creamy tomato butter chicken with garlic naan and basmati rice', calories: 680, tags: ['gluten-free', 'high-protein'] },
-    { emoji: '🥩', name: 'Filet Mignon', description: 'Pan-seared filet with garlic mashed potatoes and asparagus', calories: 750, tags: ['gluten-free', 'high-protein', 'low-carb'] },
+    { emoji: '🥩', name: 'Filet Mignon', description: 'Pan-seared filet with garlic mashed potatoes and asparagus', calories: 850, tags: ['gluten-free', 'high-protein', 'low-carb'] },
     { emoji: '🍕', name: 'Pepperoni Pizza', description: 'Classic pepperoni pizza with mozzarella on thin crispy crust', calories: 680, tags: ['high-protein'] },
     { emoji: '🌮', name: 'Carne Asada Tacos', description: 'Grilled steak tacos with guacamole, onion, and fresh cilantro', calories: 560, tags: ['gluten-free', 'dairy-free', 'high-protein'] },
     { emoji: '🍱', name: 'Sushi Platter', description: 'Assorted nigiri and maki rolls with ginger, wasabi, and soy', calories: 520, tags: ['dairy-free', 'high-protein'] },
@@ -234,13 +240,13 @@ const MEALS_DB = {
     { emoji: '🍗', name: 'Lemon Garlic Chicken', description: 'Roasted lemon garlic chicken with orzo and roasted vegetables', calories: 580, tags: ['dairy-free', 'high-protein', 'mediterranean'] },
     { emoji: '🍝', name: 'Shrimp Scampi', description: 'Garlic butter shrimp over linguine with white wine and parsley', calories: 560, tags: ['high-protein', 'mediterranean'] },
     { emoji: '🍛', name: 'Tikka Masala', description: 'Tender chicken in rich spiced tomato cream sauce with rice', calories: 620, tags: ['gluten-free', 'high-protein'] },
-    { emoji: '🥩', name: 'BBQ Ribs', description: 'Slow-cooked baby back ribs with smoky BBQ sauce and coleslaw', calories: 750, tags: ['gluten-free', 'dairy-free', 'high-protein'] },
+    { emoji: '🥩', name: 'BBQ Ribs', description: 'Slow-cooked baby back ribs with smoky BBQ sauce and coleslaw', calories: 880, tags: ['gluten-free', 'dairy-free', 'high-protein'] },
     { emoji: '🌮', name: 'Chicken Enchiladas', description: 'Corn tortillas with shredded chicken, salsa verde, and cheese', calories: 580, tags: ['gluten-free', 'high-protein'] },
     { emoji: '🍱', name: 'Katsu Curry', description: 'Crispy breaded chicken cutlet with Japanese curry sauce and rice', calories: 650, tags: ['dairy-free', 'high-protein'] },
     { emoji: '🫕', name: 'Lobster Risotto', description: 'Rich creamy risotto with chunks of lobster and fresh tarragon', calories: 620, tags: ['gluten-free', 'high-protein', 'mediterranean'] },
     { emoji: '🥘', name: 'Beef Bourguignon', description: 'French braised beef stew with red wine, carrots, and mushrooms', calories: 640, tags: ['gluten-free', 'dairy-free', 'high-protein'] },
     { emoji: '🍔', name: 'Turkey Burger', description: 'Lean turkey patty with cranberry aioli, arugula, and Swiss cheese', calories: 480, tags: ['high-protein'] },
-    { emoji: '🍝', name: 'Lasagna', description: 'Layered pasta with beef ragu, béchamel, and melted mozzarella', calories: 700, tags: ['high-protein'] },
+    { emoji: '🍝', name: 'Lasagna', description: 'Layered pasta with beef ragu, béchamel, and melted mozzarella', calories: 800, tags: ['high-protein'] },
     { emoji: '🐟', name: 'Seared Tuna Steak', description: 'Sesame-crusted ahi tuna with wasabi, soy, and pickled ginger', calories: 420, tags: ['gluten-free', 'dairy-free', 'high-protein', 'low-carb', 'keto'] },
     { emoji: '🍗', name: 'Chicken Marsala', description: 'Pan-fried chicken in marsala wine sauce with mushrooms and pasta', calories: 600, tags: ['high-protein'] },
     { emoji: '🍛', name: 'Lamb Rogan Josh', description: 'Kashmiri lamb curry with aromatic spices and steamed basmati rice', calories: 640, tags: ['gluten-free', 'dairy-free', 'high-protein'] },
@@ -248,7 +254,7 @@ const MEALS_DB = {
     { emoji: '🌮', name: 'Birria Tacos', description: 'Braised beef birria tacos dipped in consommé with onion and cilantro', calories: 580, tags: ['gluten-free', 'dairy-free', 'high-protein'] },
     { emoji: '🍱', name: 'Bibimbap Dinner', description: 'Korean mixed rice with beef, vegetables, gochujang, and fried egg', calories: 590, tags: ['dairy-free', 'high-protein'] },
     { emoji: '🫕', name: 'Truffle Risotto', description: 'Creamy parmesan risotto finished with black truffle shavings', calories: 580, tags: ['vegetarian', 'gluten-free', 'mediterranean'] },
-    { emoji: '🥘', name: 'Osso Buco', description: 'Braised veal shanks with gremolata and saffron risotto', calories: 700, tags: ['gluten-free', 'high-protein', 'mediterranean'] },
+    { emoji: '🥘', name: 'Osso Buco', description: 'Braised veal shanks with gremolata and saffron risotto', calories: 850, tags: ['gluten-free', 'high-protein', 'mediterranean'] },
     { emoji: '🍔', name: 'Lamb Burger', description: 'Spiced lamb patty with feta, cucumber yogurt, and pickled onion', calories: 560, tags: ['high-protein', 'mediterranean'] },
     { emoji: '🧆', name: 'Veggie Moussaka', description: 'Layered eggplant and potato bake with spiced lentils and béchamel', calories: 480, tags: ['vegetarian', 'mediterranean'] },
     { emoji: '🥦', name: 'Cauliflower Steak', description: 'Roasted cauliflower steak with chimichurri and roasted chickpeas', calories: 360, tags: ['vegetarian', 'vegan', 'dairy-free', 'gluten-free', 'low-carb'] },
@@ -304,6 +310,11 @@ const MEALS_DB = {
     { emoji: '🥘', name: 'Chili Con Carne', description: 'Smoky beef and bean chili with sour cream and cornbread', calories: 560, tags: ['gluten-free', 'high-protein'] },
     { emoji: '🐟', name: 'Blackened Catfish', description: 'Cajun-spiced catfish with dirty rice and collard greens', calories: 480, tags: ['gluten-free', 'dairy-free', 'high-protein'] },
     { emoji: '🌮', name: 'Tofu Lettuce Wraps', description: 'Crispy tofu in butter lettuce with hoisin, peanuts, and herbs', calories: 360, tags: ['vegetarian', 'vegan', 'dairy-free', 'gluten-free', 'low-carb'] },
+    { emoji: '🥩', name: 'Porterhouse Steak Dinner', description: 'Thick-cut porterhouse with loaded baked potato and creamed spinach', calories: 950, tags: ['gluten-free', 'high-protein', 'keto'] },
+    { emoji: '🍝', name: 'Fettuccine Alfredo with Chicken', description: 'Rich cream and parmesan fettuccine with grilled chicken breast', calories: 900, tags: ['high-protein'] },
+    { emoji: '🍗', name: 'Fried Chicken Dinner', description: 'Southern fried chicken with mac and cheese, biscuit, and coleslaw', calories: 1100, tags: ['high-protein'] },
+    { emoji: '🍕', name: 'Meat Lovers Pizza', description: 'Thick crust pizza loaded with pepperoni, sausage, bacon, and ham', calories: 1050, tags: ['high-protein'] },
+    { emoji: '🥘', name: 'Lamb Shank Dinner', description: 'Braised lamb shank with polenta, roasted root vegetables, and jus', calories: 880, tags: ['gluten-free', 'dairy-free', 'high-protein'] },
   ],
 }
 
@@ -330,27 +341,38 @@ function getPool(mealType, preferences, exclude = []) {
 }
 
 function pickBestCombo(breakfastPool, lunchPool, dinnerPool, dailyTarget) {
-  // Try random combos and pick the one closest to the daily target
-  const tolerance = dailyTarget * 0.1 // 10% tolerance
-  let bestCombo = null
-  let bestDiff = Infinity
+  // Collect all combos within 2% of target, then pick one randomly for variety
+  const closeTolerance = dailyTarget * 0.02
+  const goodCombos = []
 
   const bShuffled = shuffle(breakfastPool)
   const lShuffled = shuffle(lunchPool)
   const dShuffled = shuffle(dinnerPool)
+
+  let bestCombo = null
+  let bestDiff = Infinity
 
   for (let b = 0; b < bShuffled.length; b++) {
     for (let l = 0; l < lShuffled.length; l++) {
       for (let d = 0; d < dShuffled.length; d++) {
         const total = bShuffled[b].calories + lShuffled[l].calories + dShuffled[d].calories
         const diff = Math.abs(total - dailyTarget)
+        if (diff <= closeTolerance) {
+          goodCombos.push({ breakfast: bShuffled[b], lunch: lShuffled[l], dinner: dShuffled[d] })
+          if (goodCombos.length >= 50) break
+        }
         if (diff < bestDiff) {
           bestDiff = diff
           bestCombo = { breakfast: bShuffled[b], lunch: lShuffled[l], dinner: dShuffled[d] }
-          if (diff <= tolerance) return bestCombo
         }
       }
+      if (goodCombos.length >= 50) break
     }
+    if (goodCombos.length >= 50) break
+  }
+
+  if (goodCombos.length > 0) {
+    return goodCombos[Math.floor(Math.random() * goodCombos.length)]
   }
   return bestCombo
 }
@@ -400,7 +422,7 @@ export function regenerateMeal(mealType, preferences, currentMealName, calorieTa
 
   if (calorieTarget) {
     const perMealBudget = Math.round(calorieTarget / 3)
-    const tolerance = perMealBudget * 0.25
+    const tolerance = perMealBudget * 0.15
     const filtered = pool.filter(m => Math.abs(m.calories - perMealBudget) <= tolerance)
     if (filtered.length > 0) pool = filtered
   }
