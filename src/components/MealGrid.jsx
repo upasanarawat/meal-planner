@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
 import Paper from '@mui/material/Paper'
@@ -5,12 +6,15 @@ import Chip from '@mui/material/Chip'
 import Skeleton from '@mui/material/Skeleton'
 import RestaurantIcon from '@mui/icons-material/Restaurant'
 import MealCard, { MealCardSkeleton } from './MealCard'
+import RecipeModal from './RecipeModal'
 
 const DAYS = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
 const DAY_ABBR = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
 const MEAL_TYPES = ['breakfast', 'lunch', 'tea', 'dinner']
 
 export default function MealGrid({ plan, loading, todayIndex, regeneratingMeal, onRegenerateMeal }) {
+  const [selectedMeal, setSelectedMeal] = useState(null)
+
   if (!plan && !loading) {
     return (
       <Box sx={{ textAlign: 'center', py: 12, color: 'text.secondary' }}>
@@ -90,6 +94,7 @@ export default function MealGrid({ plan, loading, todayIndex, regeneratingMeal, 
                     meal={meal}
                     isRegenerating={isRegenerating}
                     onRegenerate={() => onRegenerateMeal(dayIndex, mealType)}
+                    onClick={() => setSelectedMeal(meal)}
                   />
                 )
               })}
@@ -108,6 +113,7 @@ export default function MealGrid({ plan, loading, todayIndex, regeneratingMeal, 
           )
         })}
       </Box>
+      <RecipeModal meal={selectedMeal} open={!!selectedMeal} onClose={() => setSelectedMeal(null)} />
     </Box>
   )
 }

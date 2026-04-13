@@ -20,14 +20,16 @@ export function MealCardSkeleton() {
   )
 }
 
-export default function MealCard({ meal, isRegenerating, onRegenerate }) {
+export default function MealCard({ meal, isRegenerating, onRegenerate, onClick }) {
   return (
     <Card
+      onClick={onClick}
       sx={{
         height: 168,
         position: 'relative',
         overflow: 'hidden',
         opacity: isRegenerating ? 0.5 : 1,
+        cursor: 'pointer',
         '&:hover .refresh-btn': { opacity: 1 },
       }}
     >
@@ -53,7 +55,7 @@ export default function MealCard({ meal, isRegenerating, onRegenerate }) {
           <IconButton
             className="refresh-btn"
             size="small"
-            onClick={onRegenerate}
+            onClick={(e) => { e.stopPropagation(); onRegenerate() }}
             disabled={isRegenerating}
             sx={{
               opacity: 0,
