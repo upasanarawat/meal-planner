@@ -20,13 +20,6 @@ export default function App() {
 
   const todayIndex = getTodayIndex()
 
-  const weeklyCalories = plan
-    ? plan.days.reduce((total, day) => {
-        const dayTotal = Object.values(day.meals).reduce((s, m) => s + m.calories, 0)
-        return total + dayTotal
-      }, 0)
-    : 0
-
   const handleGenerate = useCallback(() => {
     setLoading(true)
     setPlan(null)
@@ -57,8 +50,6 @@ export default function App() {
   return (
     <Box sx={{ minHeight: '100vh', bgcolor: 'background.default' }}>
       <Header
-        weeklyCalories={weeklyCalories}
-        hasPlan={!!plan}
         calorieTarget={calorieTarget}
         onCalorieTargetChange={setCalorieTarget}
       />

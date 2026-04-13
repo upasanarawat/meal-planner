@@ -21,7 +21,7 @@ const CALORIE_OPTIONS = [
   { value: 3000, label: '3,000 kcal' },
 ]
 
-export default function Header({ weeklyCalories, hasPlan, calorieTarget, onCalorieTargetChange }) {
+export default function Header({ calorieTarget, onCalorieTargetChange }) {
   const [anchorEl, setAnchorEl] = useState(null)
   const open = Boolean(anchorEl)
 
@@ -41,18 +41,6 @@ export default function Header({ weeklyCalories, hasPlan, calorieTarget, onCalor
             Your weekly meal planner
           </Typography>
         </Box>
-
-        {/* Weekly stats */}
-        {hasPlan && (
-          <Box sx={{ textAlign: 'right', mr: { xs: 1, md: 3 } }}>
-            <Typography variant="caption" sx={{ color: 'secondary.main', textTransform: 'uppercase', letterSpacing: '0.08em', display: 'block' }}>
-              Weekly Total
-            </Typography>
-            <Typography variant="h2" sx={{ fontSize: { xs: '1.3rem', md: '1.75rem' }, color: 'white' }}>
-              {weeklyCalories.toLocaleString()} kcal
-            </Typography>
-          </Box>
-        )}
 
         {/* Calorie selector */}
         <Button
