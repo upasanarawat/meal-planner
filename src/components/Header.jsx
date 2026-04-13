@@ -35,7 +35,7 @@ export default function Header({ calorieTarget, onCalorieTargetChange }) {
         {/* Brand */}
         <Box sx={{ flexGrow: 1, minWidth: 180 }}>
           <Typography variant="h1" sx={{ fontSize: { xs: '1.5rem', md: '2rem' }, color: 'white', lineHeight: 1.1 }}>
-            Mise en Place
+            My Meal Planner
           </Typography>
           <Typography variant="caption" sx={{ color: 'secondary.main', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
             Your weekly meal planner

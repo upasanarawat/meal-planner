@@ -1,4 +1,4 @@
-# Mise en Place
+# My Meal Planner
 
 A weekly meal planner powered by Claude AI. Generate personalized 7-day meal plans based on your dietary preferences.
 
