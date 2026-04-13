@@ -24,22 +24,18 @@ const theme = createTheme({
     },
   },
   typography: {
-    fontFamily: '"DM Sans", -apple-system, BlinkMacSystemFont, sans-serif',
+    fontFamily: '"Inter", -apple-system, BlinkMacSystemFont, sans-serif',
     h1: {
-      fontFamily: '"Cormorant Garamond", Georgia, serif',
       fontWeight: 700,
-      letterSpacing: '-0.01em',
+      letterSpacing: '-0.02em',
     },
     h2: {
-      fontFamily: '"Cormorant Garamond", Georgia, serif',
       fontWeight: 600,
     },
     h3: {
-      fontFamily: '"Cormorant Garamond", Georgia, serif',
       fontWeight: 600,
     },
     h6: {
-      fontFamily: '"Cormorant Garamond", Georgia, serif',
       fontWeight: 600,
     },
     subtitle2: {
