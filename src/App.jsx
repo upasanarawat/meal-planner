@@ -4,7 +4,6 @@ import Button from '@mui/material/Button'
 import Container from '@mui/material/Container'
 import AutoAwesomeIcon from '@mui/icons-material/AutoAwesome'
 import Header from './components/Header'
-import DietaryChips from './components/DietaryChips'
 import MealGrid from './components/MealGrid'
 import { generatePlan, regenerateMeal } from './meals'
 
@@ -14,7 +13,6 @@ function getTodayIndex() {
 }
 
 export default function App() {
-  const [preferences, setPreferences] = useState([])
   const [calorieTarget, setCalorieTarget] = useState(null)
   const [plan, setPlan] = useState(null)
   const [loading, setLoading] = useState(false)
@@ -33,11 +31,11 @@ export default function App() {
     setLoading(true)
     setPlan(null)
     setTimeout(() => {
-      const newPlan = generatePlan(preferences, calorieTarget)
+      const newPlan = generatePlan(calorieTarget)
       setPlan(newPlan)
       setLoading(false)
     }, 600)
-  }, [preferences, calorieTarget])
+  }, [calorieTarget])
 
   const handleRegenerate = useCallback((dayIndex, mealType) => {
     if (!plan) return
@@ -46,7 +44,7 @@ export default function App() {
 
     setRegeneratingMeal(key)
     setTimeout(() => {
-      const newMeal = regenerateMeal(mealType, preferences, currentMeal.name, calorieTarget)
+      const newMeal = regenerateMeal(mealType, currentMeal.name, calorieTarget)
       setPlan(prev => {
         const updated = JSON.parse(JSON.stringify(prev))
         updated.days[dayIndex].meals[mealType] = newMeal
@@ -54,7 +52,7 @@ export default function App() {
       })
       setRegeneratingMeal(null)
     }, 400)
-  }, [plan, preferences, calorieTarget])
+  }, [plan, calorieTarget])
 
   return (
     <Box sx={{ minHeight: '100vh', bgcolor: 'background.default' }}>
@@ -66,7 +64,6 @@ export default function App() {
       />
       <Container maxWidth="xl" sx={{ py: { xs: 2, md: 3 }, px: { xs: 2, md: 4 } }}>
         <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: { xs: 2, md: 3 } }}>
-          <DietaryChips selected={preferences} onChange={setPreferences} />
           <Button
             variant="contained"
             size="large"

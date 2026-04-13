@@ -8,7 +8,7 @@ import MealCard, { MealCardSkeleton } from './MealCard'
 
 const DAYS = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
 const DAY_ABBR = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
-const MEAL_TYPES = ['breakfast', 'lunch', 'dinner']
+const MEAL_TYPES = ['breakfast', 'lunch', 'tea', 'dinner']
 
 export default function MealGrid({ plan, loading, todayIndex, regeneratingMeal, onRegenerateMeal }) {
   if (!plan && !loading) {
@@ -16,7 +16,7 @@ export default function MealGrid({ plan, loading, todayIndex, regeneratingMeal, 
       <Box sx={{ textAlign: 'center', py: 10, color: 'text.secondary' }}>
         <RestaurantIcon sx={{ fontSize: 56, mb: 2, color: 'action.disabled' }} />
         <Typography variant="body1" sx={{ maxWidth: 400, mx: 'auto', lineHeight: 1.6 }}>
-          Select your dietary preferences and generate a meal plan to get started.
+          Generate a weekly Indian meal plan to get started.
         </Typography>
       </Box>
     )
@@ -78,6 +78,7 @@ export default function MealGrid({ plan, loading, todayIndex, regeneratingMeal, 
                   <MealCard
                     key={mealType}
                     meal={meal}
+                    mealType={mealType}
                     isRegenerating={isRegenerating}
                     onRegenerate={() => onRegenerateMeal(dayIndex, mealType)}
                   />
