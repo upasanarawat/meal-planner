@@ -11,7 +11,12 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* Scrollbar - Airbnb minimal style */
+/* Show refresh button on card hover */
+[data-card]:hover [data-refresh] {
+  opacity: 1 !important;
+}
+
+/* Scrollbar - minimal style */
 ::-webkit-scrollbar {
   height: 6px;
 }
@@ -19,9 +24,9 @@ body {
   background: transparent;
 }
 ::-webkit-scrollbar-thumb {
-  background: #DDDDDD;
+  background: #ccc;
   border-radius: 3px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #AAAAAA;
+  background: #999;
 }

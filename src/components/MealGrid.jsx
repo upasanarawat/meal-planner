@@ -1,10 +1,7 @@
 import { useState } from 'react'
-import Box from '@mui/material/Box'
-import Typography from '@mui/material/Typography'
-import Paper from '@mui/material/Paper'
-import Chip from '@mui/material/Chip'
-import Skeleton from '@mui/material/Skeleton'
-import RestaurantIcon from '@mui/icons-material/Restaurant'
+import { useStyletron } from 'baseui'
+import { Skeleton } from 'baseui/skeleton'
+import { Tag, KIND } from 'baseui/tag'
 import MealCard, { MealCardSkeleton } from './MealCard'
 import RecipeModal from './RecipeModal'
 
@@ -13,29 +10,49 @@ const DAY_ABBR = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
 const MEAL_TYPES = ['breakfast', 'lunch', 'tea', 'dinner']
 
 export default function MealGrid({ plan, loading, todayIndex, regeneratingMeal, onRegenerateMeal }) {
+  const [css, theme] = useStyletron()
   const [selectedMeal, setSelectedMeal] = useState(null)
 
   if (!plan && !loading) {
     return (
-      <Box sx={{ textAlign: 'center', py: 12, color: 'text.secondary' }}>
-        <RestaurantIcon sx={{ fontSize: 56, mb: 2, color: '#DDDDDD' }} />
-        <Typography variant="body1" sx={{ maxWidth: 360, mx: 'auto', lineHeight: 1.6 }}>
+      <div className={css({
+        textAlign: 'center',
+        paddingTop: '96px',
+        paddingBottom: '96px',
+        color: theme.colors.contentSecondary,
+      })}>
+        <svg className={css({ marginBottom: theme.sizing.scale600, color: theme.colors.contentTertiary })} width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M18 8h1a4 4 0 0 1 0 8h-1" />
+          <path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z" />
+          <line x1="6" y1="1" x2="6" y2="4" />
+          <line x1="10" y1="1" x2="10" y2="4" />
+          <line x1="14" y1="1" x2="14" y2="4" />
+        </svg>
+        <div className={css({
+          ...theme.typography.ParagraphMedium,
+          maxWidth: '360px',
+          marginLeft: 'auto',
+          marginRight: 'auto',
+        })}>
           Generate a weekly Indian meal plan to get started.
-        </Typography>
-      </Box>
+        </div>
+      </div>
     )
   }
 
   return (
-    <Box sx={{ width: '100%', overflowX: 'auto', pb: 1 }}>
-      <Box
-        sx={{
-          display: 'grid',
-          gridTemplateColumns: { xs: 'repeat(7, minmax(155px, 1fr))', lg: 'repeat(7, 1fr)' },
-          gap: { xs: 1, md: 2 },
-          minWidth: { xs: 950, lg: 'auto' },
-        }}
-      >
+    <div className={css({ width: '100%', overflowX: 'auto', paddingBottom: '4px' })}>
+      <div className={css({
+        display: 'grid',
+        gridTemplateColumns: 'repeat(7, minmax(155px, 1fr))',
+        gap: theme.sizing.scale300,
+        minWidth: '950px',
+        '@media screen and (min-width: 1024px)': {
+          gridTemplateColumns: 'repeat(7, 1fr)',
+          gap: theme.sizing.scale600,
+          minWidth: 'auto',
+        },
+      })}>
         {DAYS.map((day, dayIndex) => {
           const dayData = plan?.days?.[dayIndex]
           const dailyCalories = dayData
@@ -44,39 +61,43 @@ export default function MealGrid({ plan, loading, todayIndex, regeneratingMeal, 
           const isToday = dayIndex === todayIndex
 
           return (
-            <Paper
+            <div
               key={day}
-              elevation={0}
-              sx={{
-                p: { xs: 1, md: 1.5 },
+              className={css({
+                padding: theme.sizing.scale300,
                 display: 'flex',
                 flexDirection: 'column',
-                gap: 1,
-                bgcolor: isToday ? '#FFF8F6' : 'transparent',
-                border: '1px solid',
-                borderColor: isToday ? '#D03660' : 'divider',
-                borderRadius: '12px',
-              }}
+                gap: theme.sizing.scale300,
+                backgroundColor: isToday ? theme.colors.backgroundLightAccent : 'transparent',
+                border: `${isToday ? '2px' : '1px'} solid`,
+                borderColor: isToday ? theme.colors.borderAccent : theme.colors.borderOpaque,
+                borderRadius: theme.borders.radius300,
+                '@media screen and (min-width: 1024px)': {
+                  padding: theme.sizing.scale500,
+                },
+              })}
             >
               {/* Day header */}
-              <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 1, py: 1 }}>
-                <Typography variant="h3" sx={{ fontSize: { xs: '0.875rem', md: '1rem' } }}>
+              <div className={css({
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: theme.sizing.scale300,
+                paddingTop: theme.sizing.scale300,
+                paddingBottom: theme.sizing.scale300,
+              })}>
+                <span className={css({
+                  ...theme.typography.LabelMedium,
+                  color: theme.colors.contentPrimary,
+                })}>
                   {DAY_ABBR[dayIndex]}
-                </Typography>
+                </span>
                 {isToday && (
-                  <Chip
-                    label="Today"
-                    size="small"
-                    sx={{
-                      height: 20,
-                      fontSize: '0.6rem',
-                      fontWeight: 700,
-                      background: 'linear-gradient(90deg, #D03660 0%, #D73B53 100%)',
-                      color: 'white',
-                    }}
-                  />
+                  <Tag closeable={false} kind={KIND.accent} size="small">
+                    Today
+                  </Tag>
                 )}
-              </Box>
+              </div>
 
               {/* Meal cards */}
               {MEAL_TYPES.map(mealType => {
@@ -100,20 +121,20 @@ export default function MealGrid({ plan, loading, todayIndex, regeneratingMeal, 
               })}
 
               {/* Daily total */}
-              <Box sx={{ textAlign: 'center', py: 0.5 }}>
+              <div className={css({ textAlign: 'center', paddingTop: theme.sizing.scale100, paddingBottom: theme.sizing.scale100 })}>
                 {loading ? (
-                  <Skeleton variant="text" width="60%" sx={{ mx: 'auto' }} />
+                  <Skeleton width="60%" height="14px" animation overrides={{ Root: { style: { marginLeft: 'auto', marginRight: 'auto' } } }} />
                 ) : (
-                  <Typography variant="body2" sx={{ fontWeight: 600, color: 'text.secondary', fontSize: '0.75rem' }}>
+                  <span className={css({ ...theme.typography.LabelSmall, color: theme.colors.contentSecondary })}>
                     {dailyCalories.toLocaleString()} kcal
-                  </Typography>
+                  </span>
                 )}
-              </Box>
-            </Paper>
+              </div>
+            </div>
           )
         })}
-      </Box>
+      </div>
       <RecipeModal meal={selectedMeal} open={!!selectedMeal} onClose={() => setSelectedMeal(null)} />
-    </Box>
+    </div>
   )
 }

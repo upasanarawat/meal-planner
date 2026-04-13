@@ -12,17 +12,13 @@
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.39.0",
-    "@emotion/react": "^11.14.0",
-    "@emotion/styled": "^11.14.1",
-    "@mui/icons-material": "^9.0.0",
-    "@mui/material": "^9.0.0",
     "baseui": "^16.1.1",
     "cors": "^2.8.5",
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
-    "styletron-engine-monolithic": "^1.0.0",
+    "styletron-engine-atomic": "^1.6.2",
     "styletron-react": "^6.1.1"
   },
   "devDependencies": {

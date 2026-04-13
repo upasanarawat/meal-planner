@@ -1,6 +1,5 @@
 import { useState, useCallback } from 'react'
-import Box from '@mui/material/Box'
-import Container from '@mui/material/Container'
+import { useStyletron } from 'baseui'
 import Header from './components/Header'
 import MealGrid from './components/MealGrid'
 import { generatePlan, regenerateMeal } from './meals'
@@ -11,6 +10,7 @@ function getTodayIndex() {
 }
 
 export default function App() {
+  const [css, theme] = useStyletron()
   const [calorieTarget, setCalorieTarget] = useState(null)
   const [plan, setPlan] = useState(null)
   const [loading, setLoading] = useState(false)
@@ -46,7 +46,10 @@ export default function App() {
   }, [plan, calorieTarget])
 
   return (
-    <Box sx={{ minHeight: '100vh', bgcolor: 'background.default' }}>
+    <div className={css({
+      minHeight: '100vh',
+      backgroundColor: theme.colors.backgroundPrimary,
+    })}>
       <Header
         calorieTarget={calorieTarget}
         onCalorieTargetChange={setCalorieTarget}
@@ -54,7 +57,21 @@ export default function App() {
         loading={loading}
         hasPlan={!!plan}
       />
-      <Container maxWidth="xl" sx={{ py: { xs: 2, md: 3 }, px: { xs: 2, md: 4 } }}>
+      <div className={css({
+        maxWidth: '1536px',
+        marginLeft: 'auto',
+        marginRight: 'auto',
+        paddingTop: theme.sizing.scale600,
+        paddingBottom: theme.sizing.scale600,
+        paddingLeft: theme.sizing.scale600,
+        paddingRight: theme.sizing.scale600,
+        '@media screen and (min-width: 1024px)': {
+          paddingTop: theme.sizing.scale800,
+          paddingBottom: theme.sizing.scale800,
+          paddingLeft: theme.sizing.scale900,
+          paddingRight: theme.sizing.scale900,
+        },
+      })}>
         <MealGrid
           plan={plan}
           loading={loading}
@@ -62,7 +79,7 @@ export default function App() {
           regeneratingMeal={regeneratingMeal}
           onRegenerateMeal={handleRegenerate}
         />
-      </Container>
-    </Box>
+      </div>
+    </div>
   )
 }

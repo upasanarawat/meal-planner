@@ -1,15 +1,15 @@
-import { useState } from 'react'
-import AppBar from '@mui/material/AppBar'
-import Toolbar from '@mui/material/Toolbar'
-import Box from '@mui/material/Box'
-import Typography from '@mui/material/Typography'
-import Button from '@mui/material/Button'
-import Menu from '@mui/material/Menu'
-import MenuItem from '@mui/material/MenuItem'
-import ListItemIcon from '@mui/material/ListItemIcon'
-import CheckIcon from '@mui/icons-material/Check'
-import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown'
-import AutoAwesomeIcon from '@mui/icons-material/AutoAwesome'
+import { useStyletron } from 'baseui'
+import { Button } from 'baseui/button'
+import { StatefulPopover, PLACEMENT } from 'baseui/popover'
+import { StatefulMenu } from 'baseui/menu'
+import ChevronDown from 'baseui/icon/chevron-down'
+import Check from 'baseui/icon/check'
+import {
+  HeaderNavigation,
+  ALIGN,
+  StyledNavigationList,
+  StyledNavigationItem,
+} from 'baseui/header-navigation'
 
 const CALORIE_OPTIONS = [
   { value: null, label: 'No limit' },
@@ -22,84 +22,102 @@ const CALORIE_OPTIONS = [
 ]
 
 export default function Header({ calorieTarget, onCalorieTargetChange, onGenerate, loading, hasPlan }) {
-  const [anchorEl, setAnchorEl] = useState(null)
-  const open = Boolean(anchorEl)
+  const [css, theme] = useStyletron()
 
   const activeLabel = calorieTarget
     ? `${calorieTarget.toLocaleString()} kcal/day`
     : 'No limit'
 
   return (
-    <AppBar position="sticky" sx={{ bgcolor: 'background.default', color: 'text.primary' }}>
-      <Toolbar sx={{ maxWidth: 'xl', width: '100%', mx: 'auto', px: { xs: 2, md: 4 }, py: 1.5, flexWrap: 'wrap', gap: 1 }}>
-        {/* Brand */}
-        <Box sx={{ flexGrow: 1, minWidth: 180 }}>
-          <Typography variant="h1" sx={{ fontSize: { xs: '1.25rem', md: '1.5rem' } }}>
+    <HeaderNavigation
+      overrides={{
+        Root: {
+          style: {
+            position: 'sticky',
+            top: 0,
+            zIndex: 100,
+            maxWidth: '1536px',
+            marginLeft: 'auto',
+            marginRight: 'auto',
+            paddingLeft: theme.sizing.scale600,
+            paddingRight: theme.sizing.scale600,
+            '@media screen and (min-width: 1024px)': {
+              paddingLeft: theme.sizing.scale900,
+              paddingRight: theme.sizing.scale900,
+            },
+          },
+        },
+      }}
+    >
+      <StyledNavigationList $align={ALIGN.left}>
+        <StyledNavigationItem>
+          <div className={css({ ...theme.typography.HeadingSmall })}>
             My Meal Planner
-          </Typography>
-        </Box>
+          </div>
+        </StyledNavigationItem>
+      </StyledNavigationList>
 
-        {/* Calorie selector */}
-        <Button
-          onClick={(e) => setAnchorEl(e.currentTarget)}
-          endIcon={<ArrowDropDownIcon />}
-          sx={{
-            color: 'text.primary',
-            border: '1px solid',
-            borderColor: 'divider',
-            borderRadius: '8px',
-            px: 2,
-            py: 1,
-            textAlign: 'left',
-            '&:hover': { borderColor: 'text.primary', bgcolor: 'transparent' },
-          }}
-        >
-          <Box>
-            <Typography variant="caption" sx={{ display: 'block', lineHeight: 1.2, fontSize: '0.65rem', textTransform: 'uppercase', letterSpacing: '0.06em' }}>
-              Daily Goal
-            </Typography>
-            <Typography variant="body2" sx={{ fontWeight: 600, color: 'text.primary' }}>
-              {activeLabel}
-            </Typography>
-          </Box>
-        </Button>
-        <Menu
-          anchorEl={anchorEl}
-          open={open}
-          onClose={() => setAnchorEl(null)}
-          anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
-          transformOrigin={{ vertical: 'top', horizontal: 'right' }}
-          slotProps={{ paper: { sx: { borderRadius: '12px', mt: 1, boxShadow: '0 6px 20px rgba(0,0,0,0.12)' } } }}
-        >
-          {CALORIE_OPTIONS.map(opt => (
-            <MenuItem
-              key={String(opt.value)}
-              selected={calorieTarget === opt.value}
-              onClick={() => { onCalorieTargetChange(opt.value); setAnchorEl(null) }}
-              sx={{ py: 1.5, px: 3 }}
+      <StyledNavigationList $align={ALIGN.center} />
+
+      <StyledNavigationList $align={ALIGN.right}>
+        <StyledNavigationItem>
+          <StatefulPopover
+            placement={PLACEMENT.bottomRight}
+            content={({ close }) => (
+              <StatefulMenu
+                items={CALORIE_OPTIONS.map(opt => ({
+                  label: (
+                    <div className={css({ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%' })}>
+                      <span>{opt.label}</span>
+                      {calorieTarget === opt.value && (
+                        <Check size={16} color={theme.colors.contentPositive} />
+                      )}
+                    </div>
+                  ),
+                  value: opt.value,
+                }))}
+                onItemSelect={({ item }) => {
+                  onCalorieTargetChange(item.value)
+                  close()
+                }}
+              />
+            )}
+          >
+            <Button
+              kind="secondary"
+              size="compact"
+              endEnhancer={() => <ChevronDown size={20} />}
             >
-              {opt.label}
-              {calorieTarget === opt.value && (
-                <ListItemIcon sx={{ ml: 2, minWidth: 'auto' }}>
-                  <CheckIcon fontSize="small" sx={{ color: '#D03660' }} />
-                </ListItemIcon>
-              )}
-            </MenuItem>
-          ))}
-        </Menu>
+              <div className={css({ textAlign: 'left' })}>
+                <div className={css({
+                  ...theme.typography.LabelXSmall,
+                  color: theme.colors.contentTertiary,
+                  textTransform: 'uppercase',
+                  letterSpacing: '0.06em',
+                })}>
+                  Daily Goal
+                </div>
+                <div className={css({
+                  ...theme.typography.LabelSmall,
+                  color: theme.colors.contentPrimary,
+                })}>
+                  {activeLabel}
+                </div>
+              </div>
+            </Button>
+          </StatefulPopover>
+        </StyledNavigationItem>
 
-        {/* Generate button */}
-        <Button
-          variant="contained"
-          color="primary"
-          onClick={onGenerate}
-          disabled={loading}
-          startIcon={<AutoAwesomeIcon />}
-          sx={{ px: { xs: 2, md: 3 }, py: 1.2 }}
-        >
-          {loading ? 'Generating...' : hasPlan ? 'Regenerate' : 'Generate Plan'}
-        </Button>
-      </Toolbar>
-    </AppBar>
+        <StyledNavigationItem>
+          <Button
+            onClick={onGenerate}
+            disabled={loading}
+            isLoading={loading}
+          >
+            {loading ? 'Generating...' : hasPlan ? 'Regenerate' : 'Generate Plan'}
+          </Button>
+        </StyledNavigationItem>
+      </StyledNavigationList>
+    </HeaderNavigation>
   )
 }
