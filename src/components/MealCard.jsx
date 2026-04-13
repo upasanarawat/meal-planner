@@ -4,6 +4,7 @@ import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
 import IconButton from '@mui/material/IconButton'
 import CachedIcon from '@mui/icons-material/Cached'
+import AccessTimeIcon from '@mui/icons-material/AccessTime'
 import Skeleton from '@mui/material/Skeleton'
 
 export function MealCardSkeleton() {
@@ -84,9 +85,19 @@ export default function MealCard({ meal, isRegenerating, onRegenerate }) {
         >
           {meal.description}
         </Typography>
-        <Typography variant="caption" sx={{ fontWeight: 600, color: 'primary.main' }}>
-          {meal.calories} kcal
-        </Typography>
+        <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+          <Typography variant="caption" sx={{ fontWeight: 600, color: 'primary.main' }}>
+            {meal.calories} kcal
+          </Typography>
+          {meal.time && (
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.3 }}>
+              <AccessTimeIcon sx={{ fontSize: 12, color: 'text.secondary' }} />
+              <Typography variant="caption" color="text.secondary">
+                {meal.time}m
+              </Typography>
+            </Box>
+          )}
+        </Box>
       </CardContent>
     </Card>
   )
