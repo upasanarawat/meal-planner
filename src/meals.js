@@ -63,50 +63,90 @@ function filterByPreferences(meals, preferences) {
   return meals.filter(m => preferences.every(p => m.tags.includes(p)))
 }
 
-function pickMeals(mealType, preferences, count, exclude = [], calorieTarget) {
+function getPool(mealType, preferences, exclude = []) {
   let pool = filterByPreferences(MEALS_DB[mealType], preferences)
   pool = pool.filter(m => !exclude.includes(m.name))
   if (pool.length === 0) pool = MEALS_DB[mealType].filter(m => !exclude.includes(m.name))
   if (pool.length === 0) pool = MEALS_DB[mealType]
+  return pool
+}
 
-  // If calorie target is set, sort by proximity to per-meal budget
-  if (calorieTarget) {
-    const perMealBudget = Math.round(calorieTarget / 3)
-    pool = [...pool].sort((a, b) => Math.abs(a.calories - perMealBudget) - Math.abs(b.calories - perMealBudget))
-    // Take the closest half, then shuffle for variety
-    const half = Math.max(Math.ceil(pool.length / 2), count)
-    pool = shuffle(pool.slice(0, half))
-  } else {
-    pool = shuffle(pool)
-  }
+function pickBestCombo(breakfastPool, lunchPool, dinnerPool, dailyTarget) {
+  // Try random combos and pick the one closest to the daily target
+  const tolerance = dailyTarget * 0.1 // 10% tolerance
+  let bestCombo = null
+  let bestDiff = Infinity
 
-  const result = []
-  for (let i = 0; i < count; i++) {
-    result.push(pool[i % pool.length])
+  const bShuffled = shuffle(breakfastPool)
+  const lShuffled = shuffle(lunchPool)
+  const dShuffled = shuffle(dinnerPool)
+
+  for (let b = 0; b < bShuffled.length; b++) {
+    for (let l = 0; l < lShuffled.length; l++) {
+      for (let d = 0; d < dShuffled.length; d++) {
+        const total = bShuffled[b].calories + lShuffled[l].calories + dShuffled[d].calories
+        const diff = Math.abs(total - dailyTarget)
+        if (diff < bestDiff) {
+          bestDiff = diff
+          bestCombo = { breakfast: bShuffled[b], lunch: lShuffled[l], dinner: dShuffled[d] }
+          if (diff <= tolerance) return bestCombo
+        }
+      }
+    }
   }
-  return result
+  return bestCombo
 }
 
 export function generatePlan(preferences, calorieTarget) {
-  const breakfasts = pickMeals('breakfast', preferences, 7, [], calorieTarget)
-  const lunches = pickMeals('lunch', preferences, 7, [], calorieTarget)
-  const dinners = pickMeals('dinner', preferences, 7, [], calorieTarget)
-
   const DAYS = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
 
-  return {
-    days: DAYS.map((day, i) => ({
+  if (!calorieTarget) {
+    // No target — just shuffle and assign
+    const breakfasts = shuffle(getPool('breakfast', preferences))
+    const lunches = shuffle(getPool('lunch', preferences))
+    const dinners = shuffle(getPool('dinner', preferences))
+    return {
+      days: DAYS.map((day, i) => ({
+        day,
+        meals: {
+          breakfast: { ...breakfasts[i % breakfasts.length] },
+          lunch: { ...lunches[i % lunches.length] },
+          dinner: { ...dinners[i % dinners.length] },
+        },
+      })),
+    }
+  }
+
+  // With calorie target — pick combos that hit the daily goal
+  const breakfastPool = getPool('breakfast', preferences)
+  const lunchPool = getPool('lunch', preferences)
+  const dinnerPool = getPool('dinner', preferences)
+
+  const days = DAYS.map(day => {
+    const combo = pickBestCombo(breakfastPool, lunchPool, dinnerPool, calorieTarget)
+    return {
       day,
       meals: {
-        breakfast: { ...breakfasts[i] },
-        lunch: { ...lunches[i] },
-        dinner: { ...dinners[i] },
+        breakfast: { ...combo.breakfast },
+        lunch: { ...combo.lunch },
+        dinner: { ...combo.dinner },
       },
-    })),
-  }
+    }
+  })
+
+  return { days }
 }
 
 export function regenerateMeal(mealType, preferences, currentMealName, calorieTarget) {
-  const [meal] = pickMeals(mealType, preferences, 1, [currentMealName], calorieTarget)
-  return { ...meal }
+  let pool = getPool(mealType, preferences, [currentMealName])
+
+  if (calorieTarget) {
+    const perMealBudget = Math.round(calorieTarget / 3)
+    const tolerance = perMealBudget * 0.25
+    const filtered = pool.filter(m => Math.abs(m.calories - perMealBudget) <= tolerance)
+    if (filtered.length > 0) pool = filtered
+  }
+
+  const picked = shuffle(pool)[0]
+  return { ...picked }
 }
