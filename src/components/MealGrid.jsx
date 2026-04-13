@@ -13,9 +13,9 @@ const MEAL_TYPES = ['breakfast', 'lunch', 'tea', 'dinner']
 export default function MealGrid({ plan, loading, todayIndex, regeneratingMeal, onRegenerateMeal }) {
   if (!plan && !loading) {
     return (
-      <Box sx={{ textAlign: 'center', py: 10, color: 'text.secondary' }}>
-        <RestaurantIcon sx={{ fontSize: 56, mb: 2, color: 'action.disabled' }} />
-        <Typography variant="body1" sx={{ maxWidth: 400, mx: 'auto', lineHeight: 1.6 }}>
+      <Box sx={{ textAlign: 'center', py: 12, color: 'text.secondary' }}>
+        <RestaurantIcon sx={{ fontSize: 56, mb: 2, color: '#DDDDDD' }} />
+        <Typography variant="body1" sx={{ maxWidth: 360, mx: 'auto', lineHeight: 1.6 }}>
           Generate a weekly Indian meal plan to get started.
         </Typography>
       </Box>
@@ -27,9 +27,9 @@ export default function MealGrid({ plan, loading, todayIndex, regeneratingMeal, 
       <Box
         sx={{
           display: 'grid',
-          gridTemplateColumns: { xs: 'repeat(7, minmax(150px, 1fr))', lg: 'repeat(7, 1fr)' },
-          gap: { xs: 1, md: 1.5 },
-          minWidth: { xs: 900, lg: 'auto' },
+          gridTemplateColumns: { xs: 'repeat(7, minmax(155px, 1fr))', lg: 'repeat(7, 1fr)' },
+          gap: { xs: 1, md: 2 },
+          minWidth: { xs: 950, lg: 'auto' },
         }}
       >
         {DAYS.map((day, dayIndex) => {
@@ -42,25 +42,35 @@ export default function MealGrid({ plan, loading, todayIndex, regeneratingMeal, 
           return (
             <Paper
               key={day}
-              elevation={isToday ? 2 : 0}
+              elevation={0}
               sx={{
                 p: { xs: 1, md: 1.5 },
                 display: 'flex',
                 flexDirection: 'column',
                 gap: 1,
-                bgcolor: isToday ? 'warning.light' : 'transparent',
-                border: isToday ? '2px solid' : '1px solid',
-                borderColor: isToday ? 'warning.main' : 'divider',
-                borderRadius: 2,
+                bgcolor: isToday ? '#FFF8F6' : 'transparent',
+                border: '1px solid',
+                borderColor: isToday ? '#D03660' : 'divider',
+                borderRadius: '12px',
               }}
             >
               {/* Day header */}
-              <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 1, py: 0.5 }}>
-                <Typography variant="h3" sx={{ fontSize: { xs: '1rem', md: '1.25rem' } }}>
+              <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 1, py: 1 }}>
+                <Typography variant="h3" sx={{ fontSize: { xs: '0.875rem', md: '1rem' } }}>
                   {DAY_ABBR[dayIndex]}
                 </Typography>
                 {isToday && (
-                  <Chip label="Today" size="small" color="primary" sx={{ height: 20, fontSize: '0.65rem', fontWeight: 700 }} />
+                  <Chip
+                    label="Today"
+                    size="small"
+                    sx={{
+                      height: 20,
+                      fontSize: '0.6rem',
+                      fontWeight: 700,
+                      background: 'linear-gradient(90deg, #D03660 0%, #D73B53 100%)',
+                      color: 'white',
+                    }}
+                  />
                 )}
               </Box>
 
@@ -78,7 +88,6 @@ export default function MealGrid({ plan, loading, todayIndex, regeneratingMeal, 
                   <MealCard
                     key={mealType}
                     meal={meal}
-                    mealType={mealType}
                     isRegenerating={isRegenerating}
                     onRegenerate={() => onRegenerateMeal(dayIndex, mealType)}
                   />
@@ -86,11 +95,11 @@ export default function MealGrid({ plan, loading, todayIndex, regeneratingMeal, 
               })}
 
               {/* Daily total */}
-              <Box sx={{ textAlign: 'center', pt: 0.5 }}>
+              <Box sx={{ textAlign: 'center', py: 0.5 }}>
                 {loading ? (
                   <Skeleton variant="text" width="60%" sx={{ mx: 'auto' }} />
                 ) : (
-                  <Typography variant="caption" sx={{ fontWeight: 600, color: 'text.secondary' }}>
+                  <Typography variant="body2" sx={{ fontWeight: 600, color: 'text.secondary', fontSize: '0.75rem' }}>
                     {dailyCalories.toLocaleString()} kcal
                   </Typography>
                 )}

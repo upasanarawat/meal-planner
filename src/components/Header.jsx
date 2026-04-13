@@ -7,7 +7,6 @@ import Button from '@mui/material/Button'
 import Menu from '@mui/material/Menu'
 import MenuItem from '@mui/material/MenuItem'
 import ListItemIcon from '@mui/material/ListItemIcon'
-import LocalFireDepartmentIcon from '@mui/icons-material/LocalFireDepartment'
 import CheckIcon from '@mui/icons-material/Check'
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown'
 import AutoAwesomeIcon from '@mui/icons-material/AutoAwesome'
@@ -31,38 +30,35 @@ export default function Header({ calorieTarget, onCalorieTargetChange, onGenerat
     : 'No limit'
 
   return (
-    <AppBar position="static" sx={{ bgcolor: 'primary.dark' }}>
-      <Toolbar sx={{ maxWidth: 'xl', width: '100%', mx: 'auto', px: { xs: 2, md: 4 }, py: 1, flexWrap: 'wrap', gap: 1 }}>
+    <AppBar position="sticky" sx={{ bgcolor: 'background.default', color: 'text.primary' }}>
+      <Toolbar sx={{ maxWidth: 'xl', width: '100%', mx: 'auto', px: { xs: 2, md: 4 }, py: 1.5, flexWrap: 'wrap', gap: 1 }}>
         {/* Brand */}
         <Box sx={{ flexGrow: 1, minWidth: 180 }}>
-          <Typography variant="h1" sx={{ fontSize: { xs: '1.5rem', md: '2rem' }, color: 'white', lineHeight: 1.1 }}>
+          <Typography variant="h1" sx={{ fontSize: { xs: '1.25rem', md: '1.5rem' } }}>
             My Meal Planner
-          </Typography>
-          <Typography variant="caption" sx={{ color: 'secondary.main', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
-            Your weekly meal planner
           </Typography>
         </Box>
 
         {/* Calorie selector */}
         <Button
           onClick={(e) => setAnchorEl(e.currentTarget)}
-          startIcon={<LocalFireDepartmentIcon />}
           endIcon={<ArrowDropDownIcon />}
           sx={{
-            color: 'white',
-            border: '1.5px solid rgba(255,255,255,0.2)',
-            borderRadius: 2,
+            color: 'text.primary',
+            border: '1px solid',
+            borderColor: 'divider',
+            borderRadius: '8px',
             px: 2,
             py: 1,
             textAlign: 'left',
-            '&:hover': { borderColor: 'rgba(255,255,255,0.4)', bgcolor: 'rgba(255,255,255,0.08)' },
+            '&:hover': { borderColor: 'text.primary', bgcolor: 'transparent' },
           }}
         >
           <Box>
-            <Typography variant="caption" sx={{ color: 'secondary.main', textTransform: 'uppercase', letterSpacing: '0.06em', display: 'block', lineHeight: 1.2 }}>
+            <Typography variant="caption" sx={{ display: 'block', lineHeight: 1.2, fontSize: '0.65rem', textTransform: 'uppercase', letterSpacing: '0.06em' }}>
               Daily Goal
             </Typography>
-            <Typography variant="body2" sx={{ fontWeight: 600 }}>
+            <Typography variant="body2" sx={{ fontWeight: 600, color: 'text.primary' }}>
               {activeLabel}
             </Typography>
           </Box>
@@ -73,17 +69,19 @@ export default function Header({ calorieTarget, onCalorieTargetChange, onGenerat
           onClose={() => setAnchorEl(null)}
           anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
           transformOrigin={{ vertical: 'top', horizontal: 'right' }}
+          slotProps={{ paper: { sx: { borderRadius: '12px', mt: 1, boxShadow: '0 6px 20px rgba(0,0,0,0.12)' } } }}
         >
           {CALORIE_OPTIONS.map(opt => (
             <MenuItem
               key={String(opt.value)}
               selected={calorieTarget === opt.value}
               onClick={() => { onCalorieTargetChange(opt.value); setAnchorEl(null) }}
+              sx={{ py: 1.5, px: 3 }}
             >
               {opt.label}
               {calorieTarget === opt.value && (
                 <ListItemIcon sx={{ ml: 2, minWidth: 'auto' }}>
-                  <CheckIcon fontSize="small" color="primary" />
+                  <CheckIcon fontSize="small" sx={{ color: '#D03660' }} />
                 </ListItemIcon>
               )}
             </MenuItem>
@@ -93,18 +91,11 @@ export default function Header({ calorieTarget, onCalorieTargetChange, onGenerat
         {/* Generate button */}
         <Button
           variant="contained"
+          color="primary"
           onClick={onGenerate}
           disabled={loading}
           startIcon={<AutoAwesomeIcon />}
-          sx={{
-            bgcolor: 'white',
-            color: 'primary.dark',
-            fontWeight: 700,
-            px: { xs: 2, md: 3 },
-            py: 1,
-            '&:hover': { bgcolor: 'rgba(255,255,255,0.9)' },
-            '&:disabled': { bgcolor: 'rgba(255,255,255,0.4)' },
-          }}
+          sx={{ px: { xs: 2, md: 3 }, py: 1.2 }}
         >
           {loading ? 'Generating...' : hasPlan ? 'Regenerate' : 'Generate Plan'}
         </Button>
