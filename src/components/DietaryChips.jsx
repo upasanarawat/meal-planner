@@ -1,4 +1,6 @@
-import './DietaryChips.css'
+import Box from '@mui/material/Box'
+import Chip from '@mui/material/Chip'
+import Typography from '@mui/material/Typography'
 
 const DIETS = [
   { id: 'vegetarian', label: 'Vegetarian', icon: '🥬' },
@@ -19,21 +21,27 @@ export default function DietaryChips({ selected, onChange }) {
   }
 
   return (
-    <div className="chips-container">
-      <span className="chips-label">Dietary Preferences</span>
-      <div className="chips">
+    <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 1.5, width: '100%' }}>
+      <Typography variant="subtitle2" color="text.secondary">
+        Dietary Preferences
+      </Typography>
+      <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1, justifyContent: 'center' }}>
         {DIETS.map(diet => (
-          <button
+          <Chip
             key={diet.id}
-            className={`chip ${selected.includes(diet.id) ? 'chip-active' : ''}`}
+            label={`${diet.icon} ${diet.label}`}
+            variant={selected.includes(diet.id) ? 'filled' : 'outlined'}
+            color={selected.includes(diet.id) ? 'primary' : 'default'}
             onClick={() => toggle(diet.id)}
-            type="button"
-          >
-            <span className="chip-icon">{diet.icon}</span>
-            {diet.label}
-          </button>
+            sx={{
+              fontSize: '0.8rem',
+              py: 2.2,
+              px: 0.5,
+              '& .MuiChip-label': { px: 1.5 },
+            }}
+          />
         ))}
-      </div>
-    </div>
+      </Box>
+    </Box>
   )
 }

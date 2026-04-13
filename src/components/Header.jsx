@@ -1,5 +1,15 @@
-import { useState, useRef, useEffect } from 'react'
-import './Header.css'
+import { useState } from 'react'
+import AppBar from '@mui/material/AppBar'
+import Toolbar from '@mui/material/Toolbar'
+import Box from '@mui/material/Box'
+import Typography from '@mui/material/Typography'
+import Button from '@mui/material/Button'
+import Menu from '@mui/material/Menu'
+import MenuItem from '@mui/material/MenuItem'
+import ListItemIcon from '@mui/material/ListItemIcon'
+import LocalFireDepartmentIcon from '@mui/icons-material/LocalFireDepartment'
+import CheckIcon from '@mui/icons-material/Check'
+import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown'
 
 const CALORIE_OPTIONS = [
   { value: null, label: 'No limit' },
@@ -12,74 +22,85 @@ const CALORIE_OPTIONS = [
 ]
 
 export default function Header({ weeklyCalories, hasPlan, calorieTarget, onCalorieTargetChange }) {
-  const [open, setOpen] = useState(false)
-  const menuRef = useRef(null)
-
-  useEffect(() => {
-    function handleClick(e) {
-      if (menuRef.current && !menuRef.current.contains(e.target)) {
-        setOpen(false)
-      }
-    }
-    document.addEventListener('mousedown', handleClick)
-    return () => document.removeEventListener('mousedown', handleClick)
-  }, [])
+  const [anchorEl, setAnchorEl] = useState(null)
+  const open = Boolean(anchorEl)
 
   const activeLabel = calorieTarget
     ? `${calorieTarget.toLocaleString()} kcal/day`
     : 'No limit'
 
   return (
-    <header className="header">
-      <div className="header-inner">
-        <div className="header-brand">
-          <h1 className="header-title">Mise en Place</h1>
-          <p className="header-subtitle">Your weekly meal planner</p>
-        </div>
+    <AppBar position="static" sx={{ bgcolor: 'primary.dark' }}>
+      <Toolbar sx={{ maxWidth: 'xl', width: '100%', mx: 'auto', px: { xs: 2, md: 4 }, py: 1, flexWrap: 'wrap', gap: 1 }}>
+        {/* Brand */}
+        <Box sx={{ flexGrow: 1, minWidth: 180 }}>
+          <Typography variant="h1" sx={{ fontSize: { xs: '1.5rem', md: '2rem' }, color: 'white', lineHeight: 1.1 }}>
+            Mise en Place
+          </Typography>
+          <Typography variant="caption" sx={{ color: 'secondary.main', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
+            Your weekly meal planner
+          </Typography>
+        </Box>
 
-        <div className="header-right">
-          {hasPlan && (
-            <div className="header-stats">
-              <span className="stat-label">Weekly Total</span>
-              <span className="stat-value">{weeklyCalories.toLocaleString()} kcal</span>
-            </div>
-          )}
+        {/* Weekly stats */}
+        {hasPlan && (
+          <Box sx={{ textAlign: 'right', mr: { xs: 1, md: 3 } }}>
+            <Typography variant="caption" sx={{ color: 'secondary.main', textTransform: 'uppercase', letterSpacing: '0.08em', display: 'block' }}>
+              Weekly Total
+            </Typography>
+            <Typography variant="h2" sx={{ fontSize: { xs: '1.3rem', md: '1.75rem' }, color: 'white' }}>
+              {weeklyCalories.toLocaleString()} kcal
+            </Typography>
+          </Box>
+        )}
 
-          <div className="calorie-selector" ref={menuRef}>
-            <button
-              className="calorie-btn"
-              onClick={() => setOpen(o => !o)}
-              type="button"
+        {/* Calorie selector */}
+        <Button
+          onClick={(e) => setAnchorEl(e.currentTarget)}
+          startIcon={<LocalFireDepartmentIcon />}
+          endIcon={<ArrowDropDownIcon />}
+          sx={{
+            color: 'white',
+            border: '1.5px solid rgba(255,255,255,0.2)',
+            borderRadius: 2,
+            px: 2,
+            py: 1,
+            textAlign: 'left',
+            '&:hover': { borderColor: 'rgba(255,255,255,0.4)', bgcolor: 'rgba(255,255,255,0.08)' },
+          }}
+        >
+          <Box>
+            <Typography variant="caption" sx={{ color: 'secondary.main', textTransform: 'uppercase', letterSpacing: '0.06em', display: 'block', lineHeight: 1.2 }}>
+              Daily Goal
+            </Typography>
+            <Typography variant="body2" sx={{ fontWeight: 600 }}>
+              {activeLabel}
+            </Typography>
+          </Box>
+        </Button>
+        <Menu
+          anchorEl={anchorEl}
+          open={open}
+          onClose={() => setAnchorEl(null)}
+          anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+          transformOrigin={{ vertical: 'top', horizontal: 'right' }}
+        >
+          {CALORIE_OPTIONS.map(opt => (
+            <MenuItem
+              key={String(opt.value)}
+              selected={calorieTarget === opt.value}
+              onClick={() => { onCalorieTargetChange(opt.value); setAnchorEl(null) }}
             >
-              <span className="calorie-btn-icon">🔥</span>
-              <span className="calorie-btn-text">
-                <span className="calorie-btn-label">Daily Goal</span>
-                <span className="calorie-btn-value">{activeLabel}</span>
-              </span>
-              <span className={`calorie-btn-arrow ${open ? 'calorie-btn-arrow-open' : ''}`}>▾</span>
-            </button>
-
-            {open && (
-              <div className="calorie-menu">
-                {CALORIE_OPTIONS.map(opt => (
-                  <button
-                    key={String(opt.value)}
-                    className={`calorie-option ${calorieTarget === opt.value ? 'calorie-option-active' : ''}`}
-                    onClick={() => {
-                      onCalorieTargetChange(opt.value)
-                      setOpen(false)
-                    }}
-                    type="button"
-                  >
-                    {opt.label}
-                    {calorieTarget === opt.value && <span className="calorie-check">✓</span>}
-                  </button>
-                ))}
-              </div>
-            )}
-          </div>
-        </div>
-      </div>
-    </header>
+              {opt.label}
+              {calorieTarget === opt.value && (
+                <ListItemIcon sx={{ ml: 2, minWidth: 'auto' }}>
+                  <CheckIcon fontSize="small" color="primary" />
+                </ListItemIcon>
+              )}
+            </MenuItem>
+          ))}
+        </Menu>
+      </Toolbar>
+    </AppBar>
   )
 }
