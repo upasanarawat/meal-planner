@@ -10,6 +10,7 @@ import ListItemIcon from '@mui/material/ListItemIcon'
 import LocalFireDepartmentIcon from '@mui/icons-material/LocalFireDepartment'
 import CheckIcon from '@mui/icons-material/Check'
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown'
+import AutoAwesomeIcon from '@mui/icons-material/AutoAwesome'
 
 const CALORIE_OPTIONS = [
   { value: null, label: 'No limit' },
@@ -21,7 +22,7 @@ const CALORIE_OPTIONS = [
   { value: 3000, label: '3,000 kcal' },
 ]
 
-export default function Header({ calorieTarget, onCalorieTargetChange }) {
+export default function Header({ calorieTarget, onCalorieTargetChange, onGenerate, loading, hasPlan }) {
   const [anchorEl, setAnchorEl] = useState(null)
   const open = Boolean(anchorEl)
 
@@ -88,6 +89,25 @@ export default function Header({ calorieTarget, onCalorieTargetChange }) {
             </MenuItem>
           ))}
         </Menu>
+
+        {/* Generate button */}
+        <Button
+          variant="contained"
+          onClick={onGenerate}
+          disabled={loading}
+          startIcon={<AutoAwesomeIcon />}
+          sx={{
+            bgcolor: 'white',
+            color: 'primary.dark',
+            fontWeight: 700,
+            px: { xs: 2, md: 3 },
+            py: 1,
+            '&:hover': { bgcolor: 'rgba(255,255,255,0.9)' },
+            '&:disabled': { bgcolor: 'rgba(255,255,255,0.4)' },
+          }}
+        >
+          {loading ? 'Generating...' : hasPlan ? 'Regenerate' : 'Generate Plan'}
+        </Button>
       </Toolbar>
     </AppBar>
   )

@@ -1,8 +1,6 @@
 import { useState, useCallback } from 'react'
 import Box from '@mui/material/Box'
-import Button from '@mui/material/Button'
 import Container from '@mui/material/Container'
-import AutoAwesomeIcon from '@mui/icons-material/AutoAwesome'
 import Header from './components/Header'
 import MealGrid from './components/MealGrid'
 import { generatePlan, regenerateMeal } from './meals'
@@ -52,34 +50,18 @@ export default function App() {
       <Header
         calorieTarget={calorieTarget}
         onCalorieTargetChange={setCalorieTarget}
+        onGenerate={handleGenerate}
+        loading={loading}
+        hasPlan={!!plan}
       />
       <Container maxWidth="xl" sx={{ py: { xs: 2, md: 3 }, px: { xs: 2, md: 4 } }}>
-        <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: { xs: 2, md: 3 } }}>
-          <Button
-            variant="contained"
-            size="large"
-            onClick={handleGenerate}
-            disabled={loading}
-            startIcon={<AutoAwesomeIcon />}
-            sx={{
-              px: 5,
-              py: 1.5,
-              fontSize: '0.95rem',
-              boxShadow: 3,
-              '&:hover': { boxShadow: 6, transform: 'translateY(-1px)' },
-              transition: 'all 0.2s ease',
-            }}
-          >
-            {loading ? 'Generating...' : plan ? 'Regenerate Week Plan' : 'Generate Week Plan'}
-          </Button>
-          <MealGrid
-            plan={plan}
-            loading={loading}
-            todayIndex={todayIndex}
-            regeneratingMeal={regeneratingMeal}
-            onRegenerateMeal={handleRegenerate}
-          />
-        </Box>
+        <MealGrid
+          plan={plan}
+          loading={loading}
+          todayIndex={todayIndex}
+          regeneratingMeal={regeneratingMeal}
+          onRegenerateMeal={handleRegenerate}
+        />
       </Container>
     </Box>
   )
