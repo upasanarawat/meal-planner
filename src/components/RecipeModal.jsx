@@ -28,6 +28,26 @@ export default function RecipeModal({ meal, open, onClose }) {
       closeable
       animate
       autoFocus
+      overrides={{
+        Root: {
+          style: {
+            zIndex: 200,
+          },
+        },
+        DialogContainer: {
+          style: {
+            alignItems: 'flex-start',
+            paddingTop: theme.sizing.scale600,
+          },
+        },
+        Dialog: {
+          style: {
+            maxHeight: 'calc(100vh - 32px)',
+            display: 'flex',
+            flexDirection: 'column',
+          },
+        },
+      }}
     >
       <ModalHeader>
         <div className={css({ fontSize: '2.5rem', lineHeight: 1, marginBottom: theme.sizing.scale500 })}>{meal.emoji}</div>
@@ -68,7 +88,7 @@ export default function RecipeModal({ meal, open, onClose }) {
         </div>
       </ModalHeader>
 
-      <ModalBody>
+      <ModalBody $style={{ overflow: 'auto', flex: 1 }}>
         {/* Ingredients */}
         {meal.ingredients && meal.ingredients.length > 0 && (
           <div className={css({ paddingBottom: theme.sizing.scale800 })}>
