@@ -6,13 +6,17 @@ export function MealCardSkeleton() {
   const [css, theme] = useStyletron()
   return (
     <div className={css({
-      height: '168px',
+      height: '148px',
       borderRadius: theme.borders.radius300,
       border: `1px solid ${theme.colors.borderOpaque}`,
-      padding: theme.sizing.scale600,
+      padding: theme.sizing.scale500,
       display: 'flex',
       flexDirection: 'column',
       gap: theme.sizing.scale300,
+      '@media screen and (min-width: 1024px)': {
+        height: '168px',
+        padding: theme.sizing.scale600,
+      },
     })}>
       <Skeleton width="36px" height="36px" animation overrides={{ Root: { style: { borderRadius: '50%' } } }} />
       <Skeleton width="80%" height="16px" animation />
@@ -30,7 +34,7 @@ export default function MealCard({ meal, isRegenerating, onRegenerate, onClick }
       onClick={onClick}
       data-card="true"
       className={css({
-        height: '168px',
+        height: '148px',
         position: 'relative',
         overflow: 'hidden',
         opacity: isRegenerating ? 0.5 : 1,
@@ -42,6 +46,9 @@ export default function MealCard({ meal, isRegenerating, onRegenerate, onClick }
         backgroundColor: theme.colors.backgroundPrimary,
         ':hover': {
           boxShadow: theme.lighting.shadow500,
+        },
+        '@media screen and (min-width: 1024px)': {
+          height: '168px',
         },
       })}
     >
@@ -68,22 +75,31 @@ export default function MealCard({ meal, isRegenerating, onRegenerate, onClick }
         display: 'flex',
         flexDirection: 'column',
         gap: theme.sizing.scale100,
-        padding: theme.sizing.scale600,
+        padding: theme.sizing.scale500,
         height: '100%',
+        '@media screen and (min-width: 1024px)': {
+          padding: theme.sizing.scale600,
+        },
       })}>
         <div className={css({ display: 'flex', alignItems: 'center', justifyContent: 'space-between' })}>
-          <span className={css({ fontSize: '1.5rem', lineHeight: 1 })}>{meal.emoji}</span>
+          <span className={css({
+            fontSize: '1.25rem',
+            lineHeight: 1,
+            '@media screen and (min-width: 1024px)': {
+              fontSize: '1.5rem',
+            },
+          })}>{meal.emoji}</span>
           <button
             onClick={(e) => { e.stopPropagation(); onRegenerate() }}
             disabled={isRegenerating}
             data-refresh="true"
             className={css({
-              opacity: 0,
-              width: '32px',
-              height: '32px',
+              opacity: 1,
+              width: '28px',
+              height: '28px',
               borderRadius: '50%',
               border: 'none',
-              backgroundColor: 'transparent',
+              backgroundColor: theme.colors.backgroundSecondary,
               cursor: 'pointer',
               display: 'flex',
               alignItems: 'center',
@@ -91,6 +107,12 @@ export default function MealCard({ meal, isRegenerating, onRegenerate, onClick }
               transition: 'all 0.2s ease-in-out',
               ...theme.typography.LabelSmall,
               color: theme.colors.contentTertiary,
+              '@media screen and (min-width: 1024px)': {
+                opacity: 0,
+                width: '32px',
+                height: '32px',
+                backgroundColor: 'transparent',
+              },
               ':hover': {
                 backgroundColor: theme.colors.backgroundAccent,
                 color: theme.colors.contentOnColor,
@@ -105,6 +127,9 @@ export default function MealCard({ meal, isRegenerating, onRegenerate, onClick }
           ...theme.typography.LabelSmall,
           color: theme.colors.contentPrimary,
           marginTop: theme.sizing.scale100,
+          overflow: 'hidden',
+          textOverflow: 'ellipsis',
+          whiteSpace: 'nowrap',
         })}>
           {meal.name}
         </div>

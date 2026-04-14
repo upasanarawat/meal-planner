@@ -17,8 +17,8 @@ export default function MealGrid({ plan, loading, todayIndex, regeneratingMeal, 
     return (
       <div className={css({
         textAlign: 'center',
-        paddingTop: '96px',
-        paddingBottom: '96px',
+        paddingTop: theme.sizing.scale1200,
+        paddingBottom: theme.sizing.scale1200,
         color: theme.colors.contentSecondary,
       })}>
         <svg className={css({ marginBottom: theme.sizing.scale600, color: theme.colors.contentTertiary })} width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
@@ -33,6 +33,8 @@ export default function MealGrid({ plan, loading, todayIndex, regeneratingMeal, 
           maxWidth: '360px',
           marginLeft: 'auto',
           marginRight: 'auto',
+          paddingLeft: theme.sizing.scale600,
+          paddingRight: theme.sizing.scale600,
         })}>
           Generate a weekly Indian meal plan to get started.
         </div>
@@ -41,16 +43,14 @@ export default function MealGrid({ plan, loading, todayIndex, regeneratingMeal, 
   }
 
   return (
-    <div className={css({ width: '100%', overflowX: 'auto', paddingBottom: '4px' })}>
+    <div>
+      {/* Mobile layout: vertical day sections */}
       <div className={css({
-        display: 'grid',
-        gridTemplateColumns: 'repeat(7, minmax(155px, 1fr))',
-        gap: theme.sizing.scale300,
-        minWidth: '950px',
+        display: 'flex',
+        flexDirection: 'column',
+        gap: theme.sizing.scale600,
         '@media screen and (min-width: 1024px)': {
-          gridTemplateColumns: 'repeat(7, 1fr)',
-          gap: theme.sizing.scale600,
-          minWidth: 'auto',
+          display: 'none',
         },
       })}>
         {DAYS.map((day, dayIndex) => {
@@ -64,7 +64,94 @@ export default function MealGrid({ plan, loading, todayIndex, regeneratingMeal, 
             <div
               key={day}
               className={css({
-                padding: theme.sizing.scale300,
+                padding: theme.sizing.scale500,
+                display: 'flex',
+                flexDirection: 'column',
+                gap: theme.sizing.scale400,
+                backgroundColor: isToday ? theme.colors.backgroundLightAccent : 'transparent',
+                border: `${isToday ? '2px' : '1px'} solid`,
+                borderColor: isToday ? theme.colors.borderAccent : theme.colors.borderOpaque,
+                borderRadius: theme.borders.radius300,
+              })}
+            >
+              {/* Day header */}
+              <div className={css({
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+              })}>
+                <div className={css({ display: 'flex', alignItems: 'center', gap: theme.sizing.scale300 })}>
+                  <span className={css({
+                    ...theme.typography.LabelLarge,
+                    color: theme.colors.contentPrimary,
+                  })}>
+                    {DAYS[dayIndex]}
+                  </span>
+                  {isToday && (
+                    <Tag closeable={false} kind={KIND.accent} size="small">
+                      Today
+                    </Tag>
+                  )}
+                </div>
+                {!loading && (
+                  <span className={css({ ...theme.typography.LabelSmall, color: theme.colors.contentSecondary })}>
+                    {dailyCalories.toLocaleString()} kcal
+                  </span>
+                )}
+              </div>
+
+              {/* Meal cards in 2x2 grid */}
+              <div className={css({
+                display: 'grid',
+                gridTemplateColumns: '1fr 1fr',
+                gap: theme.sizing.scale300,
+              })}>
+                {MEAL_TYPES.map(mealType => {
+                  const mealKey = `${dayIndex}-${mealType}`
+                  const isRegenerating = regeneratingMeal === mealKey
+
+                  if (loading) return <MealCardSkeleton key={mealType} />
+
+                  const meal = dayData?.meals?.[mealType]
+                  if (!meal) return null
+
+                  return (
+                    <MealCard
+                      key={mealType}
+                      meal={meal}
+                      isRegenerating={isRegenerating}
+                      onRegenerate={() => onRegenerateMeal(dayIndex, mealType)}
+                      onClick={() => setSelectedMeal(meal)}
+                    />
+                  )
+                })}
+              </div>
+            </div>
+          )
+        })}
+      </div>
+
+      {/* Desktop layout: 7-column grid */}
+      <div className={css({
+        display: 'none',
+        '@media screen and (min-width: 1024px)': {
+          display: 'grid',
+          gridTemplateColumns: 'repeat(7, 1fr)',
+          gap: theme.sizing.scale600,
+        },
+      })}>
+        {DAYS.map((day, dayIndex) => {
+          const dayData = plan?.days?.[dayIndex]
+          const dailyCalories = dayData
+            ? Object.values(dayData.meals).reduce((s, m) => s + m.calories, 0)
+            : 0
+          const isToday = dayIndex === todayIndex
+
+          return (
+            <div
+              key={day}
+              className={css({
+                padding: theme.sizing.scale500,
                 display: 'flex',
                 flexDirection: 'column',
                 gap: theme.sizing.scale300,
@@ -72,9 +159,6 @@ export default function MealGrid({ plan, loading, todayIndex, regeneratingMeal, 
                 border: `${isToday ? '2px' : '1px'} solid`,
                 borderColor: isToday ? theme.colors.borderAccent : theme.colors.borderOpaque,
                 borderRadius: theme.borders.radius300,
-                '@media screen and (min-width: 1024px)': {
-                  padding: theme.sizing.scale500,
-                },
               })}
             >
               {/* Day header */}
@@ -134,6 +218,7 @@ export default function MealGrid({ plan, loading, todayIndex, regeneratingMeal, 
           )
         })}
       </div>
+
       <RecipeModal meal={selectedMeal} open={!!selectedMeal} onClose={() => setSelectedMeal(null)} />
     </div>
   )
