@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { useStyletron } from 'baseui'
 import { Modal, ModalHeader, ModalBody, ROLE, SIZE } from 'baseui/modal'
 import { Checkbox, STYLE_TYPE } from 'baseui/checkbox'
-import { Tag, KIND, VARIANT } from 'baseui/tag'
+import { Tag, KIND, HIERARCHY } from 'baseui/tag'
 
 export default function RecipeModal({ meal, open, onClose }) {
   const [css, theme] = useStyletron()
@@ -51,17 +51,17 @@ export default function RecipeModal({ meal, open, onClose }) {
             {meal.calories} kcal
           </Tag>
           {meal.prepTime != null && (
-            <Tag closeable={false} kind={KIND.neutral} variant={VARIANT.outlined}>
+            <Tag closeable={false} kind={KIND.neutral} hierarchy={HIERARCHY.secondary}>
               {meal.prepTime}m prep
             </Tag>
           )}
           {meal.cookTime != null && (
-            <Tag closeable={false} kind={KIND.neutral} variant={VARIANT.outlined}>
+            <Tag closeable={false} kind={KIND.neutral} hierarchy={HIERARCHY.secondary}>
               {meal.cookTime}m cook
             </Tag>
           )}
           {meal.servingSize && (
-            <Tag closeable={false} kind={KIND.neutral} variant={VARIANT.outlined}>
+            <Tag closeable={false} kind={KIND.neutral} hierarchy={HIERARCHY.secondary}>
               {meal.servingSize}
             </Tag>
           )}
