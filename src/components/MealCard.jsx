@@ -26,7 +26,7 @@ export function MealCardSkeleton() {
   )
 }
 
-export default function MealCard({ meal, isRegenerating, onRegenerate, onClick }) {
+export default function MealCard({ meal, isRegenerating, onRegenerate, onBan, onClick }) {
   const [css, theme] = useStyletron()
 
   return (
@@ -89,39 +89,77 @@ export default function MealCard({ meal, isRegenerating, onRegenerate, onClick }
               fontSize: '1.5rem',
             },
           })}>{meal.emoji}</span>
-          <button
-            onClick={(e) => { e.stopPropagation(); onRegenerate() }}
-            disabled={isRegenerating}
-            data-refresh="true"
-            className={css({
-              opacity: 1,
-              width: '28px',
-              height: '28px',
-              borderRadius: '50%',
-              border: 'none',
-              backgroundColor: theme.colors.backgroundSecondary,
-              cursor: 'pointer',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              transition: 'all 0.2s ease-in-out',
-              ...theme.typography.LabelSmall,
-              color: theme.colors.contentTertiary,
-              '@media screen and (min-width: 1024px)': {
-                opacity: 0,
-                width: '32px',
-                height: '32px',
-                backgroundColor: 'transparent',
-              },
-              ':hover': {
-                backgroundColor: theme.colors.backgroundAccent,
-                color: theme.colors.contentOnColor,
-                opacity: '1 !important',
-              },
-            })}
-          >
-            ↻
-          </button>
+          <div className={css({ display: 'flex', gap: theme.sizing.scale100 })}>
+            <button
+              onClick={(e) => { e.stopPropagation(); onBan() }}
+              disabled={isRegenerating}
+              data-refresh="true"
+              title="Never show this meal again"
+              className={css({
+                opacity: 1,
+                width: '28px',
+                height: '28px',
+                borderRadius: '50%',
+                border: 'none',
+                backgroundColor: theme.colors.backgroundSecondary,
+                cursor: 'pointer',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                transition: 'all 0.2s ease-in-out',
+                fontSize: '13px',
+                lineHeight: 1,
+                color: theme.colors.contentTertiary,
+                '@media screen and (min-width: 1024px)': {
+                  opacity: 0,
+                  width: '32px',
+                  height: '32px',
+                  backgroundColor: 'transparent',
+                },
+                ':hover': {
+                  backgroundColor: theme.colors.backgroundNegative,
+                  color: theme.colors.contentOnColor,
+                  opacity: '1 !important',
+                },
+              })}
+            >
+              ✕
+            </button>
+            <button
+              onClick={(e) => { e.stopPropagation(); onRegenerate() }}
+              disabled={isRegenerating}
+              data-refresh="true"
+              title="Swap for a different meal"
+              className={css({
+                opacity: 1,
+                width: '28px',
+                height: '28px',
+                borderRadius: '50%',
+                border: 'none',
+                backgroundColor: theme.colors.backgroundSecondary,
+                cursor: 'pointer',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                transition: 'all 0.2s ease-in-out',
+                ...theme.typography.LabelSmall,
+                color: theme.colors.contentTertiary,
+                '@media screen and (min-width: 1024px)': {
+                  opacity: 0,
+                  width: '32px',
+                  height: '32px',
+                  backgroundColor: 'transparent',
+                },
+                ':hover': {
+                  backgroundColor: theme.colors.backgroundAccent,
+                  color: theme.colors.contentOnColor,
+                  opacity: '1 !important',
+                },
+              })}
+            >
+              ↻
+            </button>
+          </div>
         </div>
         <div className={css({
           ...theme.typography.LabelSmall,

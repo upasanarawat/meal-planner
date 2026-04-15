@@ -409,6 +409,37 @@ const MEALS_DB = {
   ],
 }
 
+const BANNED_KEY = 'bannedMeals'
+
+function getBannedMeals() {
+  try {
+    return JSON.parse(localStorage.getItem(BANNED_KEY)) || []
+  } catch {
+    return []
+  }
+}
+
+function saveBannedMeals(list) {
+  localStorage.setItem(BANNED_KEY, JSON.stringify(list))
+}
+
+export function banMealName(name) {
+  const banned = getBannedMeals()
+  if (!banned.includes(name)) {
+    banned.push(name)
+    saveBannedMeals(banned)
+  }
+}
+
+export function getBannedList() {
+  return getBannedMeals()
+}
+
+export function unbanMeal(name) {
+  const banned = getBannedMeals().filter(n => n !== name)
+  saveBannedMeals(banned)
+}
+
 function shuffle(arr) {
   const a = [...arr]
   for (let i = a.length - 1; i > 0; i--) {
@@ -419,7 +450,10 @@ function shuffle(arr) {
 }
 
 function getPool(mealType, exclude = []) {
-  let pool = MEALS_DB[mealType].filter(m => !exclude.includes(m.name))
+  const banned = getBannedMeals()
+  const allExclude = [...exclude, ...banned]
+  let pool = MEALS_DB[mealType].filter(m => !allExclude.includes(m.name))
+  if (pool.length === 0) pool = MEALS_DB[mealType].filter(m => !banned.includes(m.name))
   if (pool.length === 0) pool = MEALS_DB[mealType]
   return pool
 }

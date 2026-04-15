@@ -9,7 +9,7 @@ const DAYS = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'
 const DAY_ABBR = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
 const MEAL_TYPES = ['breakfast', 'lunch', 'tea', 'dinner']
 
-export default function MealGrid({ plan, loading, todayIndex, regeneratingMeal, onRegenerateMeal }) {
+export default function MealGrid({ plan, loading, todayIndex, regeneratingMeal, onRegenerateMeal, onBanMeal }) {
   const [css, theme] = useStyletron()
   const [selectedMeal, setSelectedMeal] = useState(null)
 
@@ -199,6 +199,7 @@ export default function MealGrid({ plan, loading, todayIndex, regeneratingMeal, 
                     meal={meal}
                     isRegenerating={isRegenerating}
                     onRegenerate={() => onRegenerateMeal(dayIndex, mealType)}
+                    onBan={() => onBanMeal(dayIndex, mealType)}
                     onClick={() => setSelectedMeal(meal)}
                   />
                 )

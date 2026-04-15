@@ -2,7 +2,7 @@ import { useState, useCallback } from 'react'
 import { useStyletron } from 'baseui'
 import Header from './components/Header'
 import MealGrid from './components/MealGrid'
-import { generatePlan, regenerateMeal } from './meals'
+import { generatePlan, regenerateMeal, banMealName } from './meals'
 
 function getTodayIndex() {
   const jsDay = new Date().getDay()
@@ -32,6 +32,25 @@ export default function App() {
     if (!plan) return
     const currentMeal = plan.days[dayIndex].meals[mealType]
     const key = `${dayIndex}-${mealType}`
+
+    setRegeneratingMeal(key)
+    setTimeout(() => {
+      const newMeal = regenerateMeal(mealType, currentMeal.name, calorieTarget)
+      setPlan(prev => {
+        const updated = JSON.parse(JSON.stringify(prev))
+        updated.days[dayIndex].meals[mealType] = newMeal
+        return updated
+      })
+      setRegeneratingMeal(null)
+    }, 400)
+  }, [plan, calorieTarget])
+
+  const handleBan = useCallback((dayIndex, mealType) => {
+    if (!plan) return
+    const currentMeal = plan.days[dayIndex].meals[mealType]
+    const key = `${dayIndex}-${mealType}`
+
+    banMealName(currentMeal.name)
 
     setRegeneratingMeal(key)
     setTimeout(() => {
@@ -78,6 +97,7 @@ export default function App() {
           todayIndex={todayIndex}
           regeneratingMeal={regeneratingMeal}
           onRegenerateMeal={handleRegenerate}
+          onBanMeal={handleBan}
         />
       </div>
     </div>
