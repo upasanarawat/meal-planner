@@ -1,14 +1,34 @@
+import { useState, useEffect } from 'react'
 import { useStyletron } from 'baseui'
 import { Modal, ModalHeader, ModalBody, ROLE, SIZE } from 'baseui/modal'
+import { Button, KIND as BTN_KIND, SIZE as BTN_SIZE, SHAPE } from 'baseui/button'
 import { Tag, KIND, HIERARCHY } from 'baseui/tag'
+
+function scaleIngredient(ingredient, multiplier) {
+  if (multiplier === 1) return ingredient
+  return ingredient.replace(/(\d+\.?\d*)(\/(\d+\.?\d*))?/g, (match, whole, _, denom) => {
+    const num = denom ? parseFloat(whole) / parseFloat(denom) : parseFloat(whole)
+    const scaled = num * multiplier
+    if (Number.isInteger(scaled)) return String(scaled)
+    return scaled.toFixed(1).replace(/\.0$/, '')
+  })
+}
 
 export default function RecipeModal({ meal, open, onClose }) {
   const [css, theme] = useStyletron()
+  const [servings, setServings] = useState(1)
+
+  const baseServings = parseInt(meal?.servingSize) || 1
+
+  useEffect(() => {
+    if (open && meal) setServings(baseServings)
+  }, [open, meal, baseServings])
 
   if (!meal) return null
 
-  const servings = parseInt(meal.servingSize) || 1
-  const perServingCal = Math.round(meal.calories / servings)
+  const multiplier = servings / baseServings
+  const totalCal = Math.round(meal.calories * multiplier)
+  const perServingCal = Math.round(meal.calories / baseServings)
 
   return (
     <Modal
@@ -87,21 +107,72 @@ export default function RecipeModal({ meal, open, onClose }) {
         <div className={css({
           ...theme.typography.ParagraphSmall,
           color: theme.colors.contentSecondary,
-          marginBottom: theme.sizing.scale500,
+          marginBottom: theme.sizing.scale600,
           '@media screen and (min-width: 768px)': {
             ...theme.typography.ParagraphMedium,
             color: theme.colors.contentSecondary,
-            marginBottom: theme.sizing.scale600,
           },
         })}>
           {meal.description}
         </div>
 
+        {/* Servings counter */}
+        <div className={css({
+          display: 'flex',
+          alignItems: 'center',
+          gap: theme.sizing.scale400,
+          marginBottom: theme.sizing.scale400,
+        })}>
+          <span className={css({
+            ...theme.typography.LabelSmall,
+            color: theme.colors.contentPrimary,
+          })}>
+            Servings:
+          </span>
+          <div className={css({
+            display: 'flex',
+            alignItems: 'center',
+            gap: theme.sizing.scale200,
+          })}>
+            <Button
+              kind={BTN_KIND.secondary}
+              size={BTN_SIZE.mini}
+              shape={SHAPE.circle}
+              onClick={() => setServings(s => Math.max(1, s - 1))}
+              disabled={servings <= 1}
+            >
+              −
+            </Button>
+            <span className={css({
+              ...theme.typography.LabelMedium,
+              color: theme.colors.contentPrimary,
+              minWidth: '24px',
+              textAlign: 'center',
+            })}>
+              {servings}
+            </span>
+            <Button
+              kind={BTN_KIND.secondary}
+              size={BTN_SIZE.mini}
+              shape={SHAPE.circle}
+              onClick={() => setServings(s => s + 1)}
+            >
+              +
+            </Button>
+          </div>
+        </div>
+
+        {/* Calorie summary */}
+        <div className={css({
+          ...theme.typography.ParagraphSmall,
+          color: theme.colors.contentSecondary,
+          marginBottom: theme.sizing.scale500,
+        })}>
+          {totalCal} kcal total · {perServingCal} kcal per serving
+        </div>
+
         {/* Meta tags */}
         <div className={css({ display: 'flex', flexWrap: 'wrap', gap: theme.sizing.scale200 })}>
-          <Tag closeable={false} kind={KIND.accent} size="small">
-            {perServingCal} kcal / serving
-          </Tag>
           {meal.prepTime != null && (
             <Tag closeable={false} kind={KIND.neutral} hierarchy={HIERARCHY.secondary} size="small">
               {meal.prepTime}m prep
@@ -110,11 +181,6 @@ export default function RecipeModal({ meal, open, onClose }) {
           {meal.cookTime != null && (
             <Tag closeable={false} kind={KIND.neutral} hierarchy={HIERARCHY.secondary} size="small">
               {meal.cookTime}m cook
-            </Tag>
-          )}
-          {meal.servingSize && (
-            <Tag closeable={false} kind={KIND.neutral} hierarchy={HIERARCHY.secondary} size="small">
-              {meal.servingSize}
             </Tag>
           )}
         </div>
@@ -163,7 +229,7 @@ export default function RecipeModal({ meal, open, onClose }) {
                     },
                   })}
                 >
-                  {ingredient}
+                  {scaleIngredient(ingredient, multiplier)}
                 </li>
               ))}
             </ul>

@@ -1,6 +1,5 @@
 import { useStyletron } from 'baseui'
 import { Skeleton } from 'baseui/skeleton'
-import { Tag, KIND } from 'baseui/tag'
 
 export function MealCardSkeleton() {
   const [css, theme] = useStyletron()
@@ -28,6 +27,9 @@ export function MealCardSkeleton() {
 
 export default function MealCard({ meal, isRegenerating, onRegenerate, onBan, onClick }) {
   const [css, theme] = useStyletron()
+
+  const baseServings = parseInt(meal.servingSize) || 1
+  const perServingCal = Math.round(meal.calories / baseServings)
 
   return (
     <div
@@ -172,20 +174,23 @@ export default function MealCard({ meal, isRegenerating, onRegenerate, onBan, on
           {meal.name}
         </div>
         <div className={css({
+          ...theme.typography.ParagraphXSmall,
+          color: theme.colors.contentAccent,
+        })}>
+          {perServingCal} kcal · per serving
+        </div>
+        <div className={css({
           flex: 1,
           overflow: 'hidden',
           display: '-webkit-box',
-          WebkitLineClamp: 2,
+          WebkitLineClamp: 1,
           WebkitBoxOrient: 'vertical',
           ...theme.typography.ParagraphXSmall,
           color: theme.colors.contentSecondary,
         })}>
           {meal.description}
         </div>
-        <div className={css({ display: 'flex', alignItems: 'center', justifyContent: 'space-between' })}>
-          <Tag closeable={false} kind={KIND.accent} size="small">
-            {meal.calories} kcal
-          </Tag>
+        <div className={css({ display: 'flex', alignItems: 'center', justifyContent: 'flex-end' })}>
           {meal.time && (
             <span className={css({ display: 'flex', alignItems: 'center', gap: '3px', color: theme.colors.contentTertiary, ...theme.typography.ParagraphXSmall })}>
               <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
