@@ -7,6 +7,9 @@ export default function RecipeModal({ meal, open, onClose }) {
 
   if (!meal) return null
 
+  const servings = parseInt(meal.servingSize) || 1
+  const perServingCal = Math.round(meal.calories / servings)
+
   return (
     <Modal
       isOpen={open}
@@ -97,7 +100,7 @@ export default function RecipeModal({ meal, open, onClose }) {
         {/* Meta tags */}
         <div className={css({ display: 'flex', flexWrap: 'wrap', gap: theme.sizing.scale200 })}>
           <Tag closeable={false} kind={KIND.accent} size="small">
-            {meal.calories} kcal
+            {perServingCal} kcal / serving
           </Tag>
           {meal.prepTime != null && (
             <Tag closeable={false} kind={KIND.neutral} hierarchy={HIERARCHY.secondary} size="small">
