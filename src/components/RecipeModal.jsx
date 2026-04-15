@@ -1,28 +1,16 @@
-import { useState } from 'react'
 import { useStyletron } from 'baseui'
 import { Modal, ModalHeader, ModalBody, ROLE, SIZE } from 'baseui/modal'
-import { Checkbox, STYLE_TYPE } from 'baseui/checkbox'
 import { Tag, KIND, HIERARCHY } from 'baseui/tag'
 
 export default function RecipeModal({ meal, open, onClose }) {
   const [css, theme] = useStyletron()
-  const [checkedIngredients, setCheckedIngredients] = useState({})
 
   if (!meal) return null
-
-  const toggleIngredient = (index) => {
-    setCheckedIngredients(prev => ({ ...prev, [index]: !prev[index] }))
-  }
-
-  const handleClose = () => {
-    setCheckedIngredients({})
-    onClose()
-  }
 
   return (
     <Modal
       isOpen={open}
-      onClose={handleClose}
+      onClose={onClose}
       role={ROLE.dialog}
       size={SIZE.default}
       closeable
@@ -38,6 +26,7 @@ export default function RecipeModal({ meal, open, onClose }) {
           style: {
             alignItems: 'flex-end',
             paddingTop: 0,
+            overflowY: 'auto',
             '@media screen and (min-width: 768px)': {
               alignItems: 'flex-start',
               paddingTop: theme.sizing.scale600,
@@ -49,8 +38,7 @@ export default function RecipeModal({ meal, open, onClose }) {
             width: '100vw',
             maxWidth: '100vw',
             maxHeight: '92vh',
-            display: 'flex',
-            flexDirection: 'column',
+            overflowY: 'auto',
             borderTopLeftRadius: theme.borders.radius400,
             borderTopRightRadius: theme.borders.radius400,
             borderBottomLeftRadius: '0',
@@ -129,7 +117,7 @@ export default function RecipeModal({ meal, open, onClose }) {
         </div>
       </ModalHeader>
 
-      <ModalBody $style={{ overflow: 'auto', flex: 1 }}>
+      <ModalBody>
         {/* Ingredients */}
         {meal.ingredients && meal.ingredients.length > 0 && (
           <div className={css({ paddingBottom: theme.sizing.scale700 })}>
@@ -148,46 +136,31 @@ export default function RecipeModal({ meal, open, onClose }) {
             })}>
               Ingredients
             </div>
-            <ul className={css({ listStyle: 'none', padding: 0, margin: 0 })}>
+            <ul className={css({
+              listStyle: 'none',
+              padding: 0,
+              margin: 0,
+              display: 'flex',
+              flexDirection: 'column',
+              gap: theme.sizing.scale200,
+            })}>
               {meal.ingredients.map((ingredient, i) => (
                 <li
                   key={i}
-                  onClick={() => toggleIngredient(i)}
                   className={css({
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: theme.sizing.scale100,
-                    paddingTop: theme.sizing.scale200,
-                    paddingBottom: theme.sizing.scale200,
-                    cursor: 'pointer',
-                    borderRadius: theme.borders.radius200,
-                    marginLeft: `-${theme.sizing.scale300}`,
-                    marginRight: `-${theme.sizing.scale300}`,
-                    paddingLeft: theme.sizing.scale300,
-                    paddingRight: theme.sizing.scale300,
-                    ':hover': {
-                      backgroundColor: theme.colors.backgroundSecondary,
+                    ...theme.typography.ParagraphSmall,
+                    color: theme.colors.contentPrimary,
+                    paddingLeft: theme.sizing.scale500,
+                    position: 'relative',
+                    '::before': {
+                      content: '"•"',
+                      position: 'absolute',
+                      left: 0,
+                      color: theme.colors.contentTertiary,
                     },
                   })}
                 >
-                  <Checkbox
-                    checked={!!checkedIngredients[i]}
-                    onChange={() => toggleIngredient(i)}
-                    checkmarkType={STYLE_TYPE.toggle_round}
-                    overrides={{
-                      Root: {
-                        style: { paddingLeft: 0 },
-                      },
-                    }}
-                  />
-                  <span className={css({
-                    ...theme.typography.ParagraphSmall,
-                    color: checkedIngredients[i] ? theme.colors.contentTertiary : theme.colors.contentPrimary,
-                    textDecoration: checkedIngredients[i] ? 'line-through' : 'none',
-                    transition: 'all 0.15s ease',
-                  })}>
-                    {ingredient}
-                  </span>
+                  {ingredient}
                 </li>
               ))}
             </ul>
