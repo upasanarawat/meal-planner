@@ -82,13 +82,13 @@ export default function App() {
         marginRight: 'auto',
         paddingTop: theme.sizing.scale600,
         paddingBottom: theme.sizing.scale600,
-        paddingLeft: theme.sizing.scale600,
-        paddingRight: theme.sizing.scale600,
+        paddingLeft: theme.sizing.scale500,
+        paddingRight: theme.sizing.scale500,
         '@media screen and (min-width: 1024px)': {
           paddingTop: theme.sizing.scale800,
           paddingBottom: theme.sizing.scale800,
-          paddingLeft: theme.sizing.scale900,
-          paddingRight: theme.sizing.scale900,
+          paddingLeft: '48px',
+          paddingRight: '48px',
         },
       })}>
         <MealGrid
