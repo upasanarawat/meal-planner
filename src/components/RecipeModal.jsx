@@ -57,10 +57,12 @@ export default function RecipeModal({ meal, open, onClose }) {
         },
         Dialog: {
           style: {
+            display: 'flex',
+            flexDirection: 'column',
+            overflow: 'hidden',
             width: '100vw',
             maxWidth: '100vw',
             maxHeight: '92vh',
-            overflowY: 'auto',
             borderTopLeftRadius: theme.borders.radius400,
             borderTopRightRadius: theme.borders.radius400,
             borderBottomLeftRadius: '0',
@@ -89,17 +91,15 @@ export default function RecipeModal({ meal, open, onClose }) {
         },
       }}
     >
-      {/* Sticky header: emoji, name, description */}
+      {/* Fixed header — does not scroll */}
       <div className={css({
-        position: 'sticky',
-        top: 0,
-        zIndex: 5,
+        flexShrink: 0,
         backgroundColor: theme.colors.backgroundPrimary,
         paddingTop: theme.sizing.scale700,
         paddingBottom: theme.sizing.scale600,
         paddingLeft: theme.sizing.scale700,
         paddingRight: theme.sizing.scale700,
-        boxShadow: '0 1px 0 ' + theme.colors.borderOpaque,
+        borderBottom: `1px solid ${theme.colors.borderOpaque}`,
         '@media screen and (min-width: 768px)': {
           paddingTop: theme.sizing.scale800,
           paddingLeft: theme.sizing.scale800,
@@ -140,6 +140,8 @@ export default function RecipeModal({ meal, open, onClose }) {
 
       {/* Scrollable body */}
       <div className={css({
+        flex: 1,
+        overflowY: 'auto',
         paddingLeft: theme.sizing.scale700,
         paddingRight: theme.sizing.scale700,
         paddingBottom: theme.sizing.scale800,
