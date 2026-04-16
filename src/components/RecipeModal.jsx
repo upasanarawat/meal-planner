@@ -95,47 +95,37 @@ export default function RecipeModal({ meal, open, onClose }) {
       <div className={css({
         flexShrink: 0,
         backgroundColor: theme.colors.backgroundPrimary,
-        paddingTop: theme.sizing.scale700,
+        paddingTop: theme.sizing.scale600,
         paddingBottom: theme.sizing.scale600,
         paddingLeft: theme.sizing.scale700,
         paddingRight: theme.sizing.scale700,
         borderBottom: `1px solid ${theme.colors.borderOpaque}`,
+        display: 'flex',
+        alignItems: 'center',
+        gap: theme.sizing.scale400,
         '@media screen and (min-width: 768px)': {
-          paddingTop: theme.sizing.scale800,
+          paddingTop: theme.sizing.scale700,
           paddingLeft: theme.sizing.scale800,
           paddingRight: theme.sizing.scale800,
         },
       })}>
-        <div className={css({
-          fontSize: '2rem',
+        <span className={css({
+          fontSize: '1.75rem',
           lineHeight: 1,
-          marginBottom: theme.sizing.scale400,
           '@media screen and (min-width: 768px)': {
-            fontSize: '2.5rem',
-            marginBottom: theme.sizing.scale500,
+            fontSize: '2rem',
           },
-        })}>{meal.emoji}</div>
-        <div className={css({
+        })}>{meal.emoji}</span>
+        <span className={css({
           ...theme.typography.HeadingXSmall,
-          marginBottom: theme.sizing.scale300,
+          flex: 1,
           paddingRight: theme.sizing.scale900,
           '@media screen and (min-width: 768px)': {
             ...theme.typography.HeadingSmall,
           },
         })}>
           {meal.name}
-        </div>
-        <div className={css({
-          ...theme.typography.ParagraphSmall,
-          color: theme.colors.contentSecondary,
-          paddingRight: theme.sizing.scale600,
-          '@media screen and (min-width: 768px)': {
-            ...theme.typography.ParagraphMedium,
-            color: theme.colors.contentSecondary,
-          },
-        })}>
-          {meal.description}
-        </div>
+        </span>
       </div>
 
       {/* Scrollable body */}
@@ -150,12 +140,25 @@ export default function RecipeModal({ meal, open, onClose }) {
           paddingRight: theme.sizing.scale800,
         },
       })}>
+        {/* Description */}
+        <div className={css({
+          ...theme.typography.ParagraphSmall,
+          color: theme.colors.contentSecondary,
+          paddingTop: theme.sizing.scale600,
+          marginBottom: theme.sizing.scale500,
+          '@media screen and (min-width: 768px)': {
+            ...theme.typography.ParagraphMedium,
+            color: theme.colors.contentSecondary,
+          },
+        })}>
+          {meal.description}
+        </div>
+
         {/* Servings counter */}
         <div className={css({
           display: 'flex',
           alignItems: 'center',
           gap: theme.sizing.scale400,
-          paddingTop: theme.sizing.scale600,
           marginBottom: theme.sizing.scale400,
         })}>
           <span className={css({
