@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useStyletron } from 'baseui'
-import { Modal, ModalHeader, ModalBody, ROLE, SIZE } from 'baseui/modal'
+import { Modal, ROLE, SIZE } from 'baseui/modal'
 import { Button, KIND as BTN_KIND, SIZE as BTN_SIZE, SHAPE } from 'baseui/button'
 import { Tag, KIND, HIERARCHY } from 'baseui/tag'
 
@@ -49,7 +49,6 @@ export default function RecipeModal({ meal, open, onClose }) {
           style: {
             alignItems: 'flex-end',
             paddingTop: 0,
-            overflowY: 'auto',
             '@media screen and (min-width: 768px)': {
               alignItems: 'flex-start',
               paddingTop: theme.sizing.scale600,
@@ -83,9 +82,30 @@ export default function RecipeModal({ meal, open, onClose }) {
             },
           },
         },
+        Close: {
+          style: {
+            zIndex: 10,
+          },
+        },
       }}
     >
-      <ModalHeader>
+      {/* Sticky header: emoji, name, description */}
+      <div className={css({
+        position: 'sticky',
+        top: 0,
+        zIndex: 5,
+        backgroundColor: theme.colors.backgroundPrimary,
+        paddingTop: theme.sizing.scale700,
+        paddingBottom: theme.sizing.scale600,
+        paddingLeft: theme.sizing.scale700,
+        paddingRight: theme.sizing.scale700,
+        boxShadow: '0 1px 0 ' + theme.colors.borderOpaque,
+        '@media screen and (min-width: 768px)': {
+          paddingTop: theme.sizing.scale800,
+          paddingLeft: theme.sizing.scale800,
+          paddingRight: theme.sizing.scale800,
+        },
+      })}>
         <div className={css({
           fontSize: '2rem',
           lineHeight: 1,
@@ -98,6 +118,7 @@ export default function RecipeModal({ meal, open, onClose }) {
         <div className={css({
           ...theme.typography.HeadingXSmall,
           marginBottom: theme.sizing.scale300,
+          paddingRight: theme.sizing.scale900,
           '@media screen and (min-width: 768px)': {
             ...theme.typography.HeadingSmall,
           },
@@ -107,7 +128,7 @@ export default function RecipeModal({ meal, open, onClose }) {
         <div className={css({
           ...theme.typography.ParagraphSmall,
           color: theme.colors.contentSecondary,
-          marginBottom: theme.sizing.scale600,
+          paddingRight: theme.sizing.scale600,
           '@media screen and (min-width: 768px)': {
             ...theme.typography.ParagraphMedium,
             color: theme.colors.contentSecondary,
@@ -115,12 +136,24 @@ export default function RecipeModal({ meal, open, onClose }) {
         })}>
           {meal.description}
         </div>
+      </div>
 
+      {/* Scrollable body */}
+      <div className={css({
+        paddingLeft: theme.sizing.scale700,
+        paddingRight: theme.sizing.scale700,
+        paddingBottom: theme.sizing.scale800,
+        '@media screen and (min-width: 768px)': {
+          paddingLeft: theme.sizing.scale800,
+          paddingRight: theme.sizing.scale800,
+        },
+      })}>
         {/* Servings counter */}
         <div className={css({
           display: 'flex',
           alignItems: 'center',
           gap: theme.sizing.scale400,
+          paddingTop: theme.sizing.scale600,
           marginBottom: theme.sizing.scale400,
         })}>
           <span className={css({
@@ -172,7 +205,7 @@ export default function RecipeModal({ meal, open, onClose }) {
         </div>
 
         {/* Meta tags */}
-        <div className={css({ display: 'flex', flexWrap: 'wrap', gap: theme.sizing.scale200 })}>
+        <div className={css({ display: 'flex', flexWrap: 'wrap', gap: theme.sizing.scale200, marginBottom: theme.sizing.scale700 })}>
           {meal.prepTime != null && (
             <Tag closeable={false} kind={KIND.neutral} hierarchy={HIERARCHY.secondary} size="small">
               {meal.prepTime}m prep
@@ -184,9 +217,7 @@ export default function RecipeModal({ meal, open, onClose }) {
             </Tag>
           )}
         </div>
-      </ModalHeader>
 
-      <ModalBody>
         {/* Ingredients */}
         {meal.ingredients && meal.ingredients.length > 0 && (
           <div className={css({ paddingBottom: theme.sizing.scale700 })}>
@@ -240,7 +271,7 @@ export default function RecipeModal({ meal, open, onClose }) {
 
         {/* Instructions */}
         {meal.instructions && meal.instructions.length > 0 && (
-          <div className={css({ paddingTop: theme.sizing.scale700, paddingBottom: theme.sizing.scale800 })}>
+          <div className={css({ paddingTop: theme.sizing.scale700 })}>
             <div className={css({
               ...theme.typography.LabelSmall,
               textTransform: 'uppercase',
@@ -292,7 +323,7 @@ export default function RecipeModal({ meal, open, onClose }) {
             </div>
           </div>
         )}
-      </ModalBody>
+      </div>
     </Modal>
   )
 }
