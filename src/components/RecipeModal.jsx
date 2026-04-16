@@ -1,8 +1,11 @@
 import { useState, useEffect } from 'react'
 import { useStyletron } from 'baseui'
-import { Modal, ROLE, SIZE } from 'baseui/modal'
-import { Button, KIND as BTN_KIND, SIZE as BTN_SIZE, SHAPE } from 'baseui/button'
+import { Modal, ModalHeader, ModalBody, ROLE, SIZE } from 'baseui/modal'
+import { Block } from 'baseui/block'
+import { Button, KIND as BTN_KIND, SIZE as BTN_SIZE } from 'baseui/button'
+import { ButtonGroup } from 'baseui/button-group'
 import { Tag, KIND, HIERARCHY } from 'baseui/tag'
+import { ListItem, ListItemLabel } from 'baseui/list'
 
 function scaleIngredient(ingredient, multiplier) {
   if (multiplier === 1) return ingredient
@@ -40,11 +43,7 @@ export default function RecipeModal({ meal, open, onClose }) {
       animate
       autoFocus
       overrides={{
-        Root: {
-          style: {
-            zIndex: 200,
-          },
-        },
+        Root: { style: { zIndex: 200 } },
         DialogContainer: {
           style: {
             alignItems: 'flex-end',
@@ -84,133 +83,54 @@ export default function RecipeModal({ meal, open, onClose }) {
             },
           },
         },
-        Close: {
-          style: {
-            zIndex: 10,
-          },
-        },
+        Close: { style: { zIndex: 10 } },
       }}
     >
-      {/* Fixed header — does not scroll */}
-      <div className={css({
-        flexShrink: 0,
-        backgroundColor: theme.colors.backgroundPrimary,
-        paddingTop: theme.sizing.scale600,
-        paddingBottom: theme.sizing.scale600,
-        paddingLeft: theme.sizing.scale700,
-        paddingRight: theme.sizing.scale700,
-        borderBottom: `1px solid ${theme.colors.borderOpaque}`,
-        display: 'flex',
-        alignItems: 'center',
-        gap: theme.sizing.scale400,
-        '@media screen and (min-width: 768px)': {
-          paddingTop: theme.sizing.scale700,
-          paddingLeft: theme.sizing.scale800,
-          paddingRight: theme.sizing.scale800,
-        },
-      })}>
-        <span className={css({
-          fontSize: '1.75rem',
-          lineHeight: 1,
-          '@media screen and (min-width: 768px)': {
-            fontSize: '2rem',
-          },
-        })}>{meal.emoji}</span>
-        <span className={css({
-          ...theme.typography.HeadingXSmall,
-          flex: 1,
-          paddingRight: theme.sizing.scale900,
-          '@media screen and (min-width: 768px)': {
-            ...theme.typography.HeadingSmall,
-          },
-        })}>
+      {/* Sticky header */}
+      <Block
+        display="flex"
+        alignItems="center"
+        padding={theme.sizing.scale600}
+        $style={{
+          flexShrink: 0,
+          borderBottom: `1px solid ${theme.colors.borderOpaque}`,
+          gap: theme.sizing.scale400,
+        }}
+      >
+        <span className={css({ fontSize: '1.75rem', lineHeight: 1 })}>{meal.emoji}</span>
+        <span className={css({ ...theme.typography.HeadingSmall, flex: 1, paddingRight: theme.sizing.scale900 })}>
           {meal.name}
         </span>
-      </div>
+      </Block>
 
       {/* Scrollable body */}
-      <div className={css({
-        flex: 1,
-        overflowY: 'auto',
-        paddingLeft: theme.sizing.scale700,
-        paddingRight: theme.sizing.scale700,
-        paddingBottom: theme.sizing.scale800,
-        '@media screen and (min-width: 768px)': {
-          paddingLeft: theme.sizing.scale800,
-          paddingRight: theme.sizing.scale800,
-        },
-      })}>
+      <Block flex="1" $style={{ overflowY: 'auto' }} padding={theme.sizing.scale600}>
         {/* Description */}
-        <div className={css({
-          ...theme.typography.ParagraphSmall,
-          color: theme.colors.contentSecondary,
-          paddingTop: theme.sizing.scale600,
-          marginBottom: theme.sizing.scale500,
-          '@media screen and (min-width: 768px)': {
-            ...theme.typography.ParagraphMedium,
-            color: theme.colors.contentSecondary,
-          },
-        })}>
-          {meal.description}
-        </div>
+        <Block marginBottom={theme.sizing.scale600}>
+          <span className={css({ ...theme.typography.ParagraphMedium, color: theme.colors.contentSecondary })}>
+            {meal.description}
+          </span>
+        </Block>
 
         {/* Servings counter */}
-        <div className={css({
-          display: 'flex',
-          alignItems: 'center',
-          gap: theme.sizing.scale400,
-          marginBottom: theme.sizing.scale400,
-        })}>
-          <span className={css({
-            ...theme.typography.LabelSmall,
-            color: theme.colors.contentPrimary,
-          })}>
-            Servings:
-          </span>
-          <div className={css({
-            display: 'flex',
-            alignItems: 'center',
-            gap: theme.sizing.scale200,
-          })}>
-            <Button
-              kind={BTN_KIND.secondary}
-              size={BTN_SIZE.mini}
-              shape={SHAPE.circle}
-              onClick={() => setServings(s => Math.max(1, s - 1))}
-              disabled={servings <= 1}
-            >
-              −
-            </Button>
-            <span className={css({
-              ...theme.typography.LabelMedium,
-              color: theme.colors.contentPrimary,
-              minWidth: '24px',
-              textAlign: 'center',
-            })}>
-              {servings}
-            </span>
-            <Button
-              kind={BTN_KIND.secondary}
-              size={BTN_SIZE.mini}
-              shape={SHAPE.circle}
-              onClick={() => setServings(s => s + 1)}
-            >
-              +
-            </Button>
-          </div>
-        </div>
+        <Block display="flex" alignItems="center" gridGap={theme.sizing.scale300} marginBottom={theme.sizing.scale300}>
+          <span className={css({ ...theme.typography.LabelMedium })}>Servings:</span>
+          <ButtonGroup size={BTN_SIZE.mini} kind={BTN_KIND.secondary}>
+            <Button onClick={() => setServings(s => Math.max(1, s - 1))} disabled={servings <= 1}>−</Button>
+            <Button disabled overrides={{ BaseButton: { style: { cursor: 'default' } } }}>{servings}</Button>
+            <Button onClick={() => setServings(s => s + 1)}>+</Button>
+          </ButtonGroup>
+        </Block>
 
         {/* Calorie summary */}
-        <div className={css({
-          ...theme.typography.ParagraphSmall,
-          color: theme.colors.contentSecondary,
-          marginBottom: theme.sizing.scale500,
-        })}>
-          {totalCal} kcal total · {perServingCal} kcal per serving
-        </div>
+        <Block marginBottom={theme.sizing.scale600}>
+          <span className={css({ ...theme.typography.ParagraphSmall, color: theme.colors.contentSecondary })}>
+            {totalCal} kcal total · {perServingCal} kcal per serving
+          </span>
+        </Block>
 
         {/* Meta tags */}
-        <div className={css({ display: 'flex', flexWrap: 'wrap', gap: theme.sizing.scale200, marginBottom: theme.sizing.scale700 })}>
+        <Block display="flex" gridGap={theme.sizing.scale200} marginBottom={theme.sizing.scale600}>
           {meal.prepTime != null && (
             <Tag closeable={false} kind={KIND.neutral} hierarchy={HIERARCHY.secondary} size="small">
               {meal.prepTime}m prep
@@ -221,114 +141,58 @@ export default function RecipeModal({ meal, open, onClose }) {
               {meal.cookTime}m cook
             </Tag>
           )}
-        </div>
+        </Block>
 
         {/* Ingredients */}
         {meal.ingredients && meal.ingredients.length > 0 && (
-          <div className={css({ paddingBottom: theme.sizing.scale700 })}>
-            <div className={css({
-              ...theme.typography.LabelSmall,
-              textTransform: 'uppercase',
-              letterSpacing: '0.06em',
-              color: theme.colors.contentPrimary,
-              marginBottom: theme.sizing.scale400,
-              '@media screen and (min-width: 768px)': {
-                ...theme.typography.LabelMedium,
-                textTransform: 'uppercase',
-                letterSpacing: '0.06em',
-                marginBottom: theme.sizing.scale500,
-              },
-            })}>
-              Ingredients
-            </div>
-            <ul className={css({
-              listStyle: 'none',
-              padding: 0,
-              margin: 0,
-              display: 'flex',
-              flexDirection: 'column',
-              gap: theme.sizing.scale200,
-            })}>
+          <Block marginBottom={theme.sizing.scale600}>
+            <Block marginBottom={theme.sizing.scale300}>
+              <span className={css({ ...theme.typography.LabelMedium, textTransform: 'uppercase', letterSpacing: '0.06em' })}>
+                Ingredients
+              </span>
+            </Block>
+            <ul className={css({ listStyle: 'none', padding: 0, margin: 0 })}>
               {meal.ingredients.map((ingredient, i) => (
-                <li
-                  key={i}
-                  className={css({
-                    ...theme.typography.ParagraphSmall,
-                    color: theme.colors.contentPrimary,
-                    paddingLeft: theme.sizing.scale500,
-                    position: 'relative',
-                    '::before': {
-                      content: '"•"',
-                      position: 'absolute',
-                      left: 0,
-                      color: theme.colors.contentTertiary,
-                    },
-                  })}
-                >
-                  {scaleIngredient(ingredient, multiplier)}
-                </li>
+                <ListItem key={i} overrides={{ Root: { style: { paddingLeft: 0, paddingRight: 0 } } }}>
+                  <ListItemLabel>{scaleIngredient(ingredient, multiplier)}</ListItemLabel>
+                </ListItem>
               ))}
             </ul>
-          </div>
+          </Block>
         )}
-
-        <hr className={css({ border: 'none', borderTop: `1px solid ${theme.colors.borderOpaque}`, margin: 0 })} />
 
         {/* Instructions */}
         {meal.instructions && meal.instructions.length > 0 && (
-          <div className={css({ paddingTop: theme.sizing.scale700 })}>
-            <div className={css({
-              ...theme.typography.LabelSmall,
-              textTransform: 'uppercase',
-              letterSpacing: '0.06em',
-              color: theme.colors.contentPrimary,
-              marginBottom: theme.sizing.scale500,
-              '@media screen and (min-width: 768px)': {
-                ...theme.typography.LabelMedium,
-                textTransform: 'uppercase',
-                letterSpacing: '0.06em',
-                marginBottom: theme.sizing.scale600,
-              },
-            })}>
-              Instructions
-            </div>
-            <div className={css({ display: 'flex', flexDirection: 'column', gap: theme.sizing.scale500 })}>
+          <Block>
+            <Block marginBottom={theme.sizing.scale300}>
+              <span className={css({ ...theme.typography.LabelMedium, textTransform: 'uppercase', letterSpacing: '0.06em' })}>
+                Instructions
+              </span>
+            </Block>
+            <ol className={css({ listStyle: 'none', padding: 0, margin: 0, counterReset: 'step' })}>
               {meal.instructions.map((step, i) => (
-                <div key={i} className={css({ display: 'flex', gap: theme.sizing.scale400 })}>
-                  <div className={css({
-                    width: '24px',
-                    height: '24px',
-                    minWidth: '24px',
-                    borderRadius: '50%',
-                    backgroundColor: theme.colors.backgroundSecondary,
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    marginTop: '2px',
-                    '@media screen and (min-width: 768px)': {
-                      width: '28px',
-                      height: '28px',
-                      minWidth: '28px',
-                    },
-                  })}>
-                    <span className={css({ ...theme.typography.LabelXSmall, color: theme.colors.contentAccent })}>
-                      {i + 1}
+                <ListItem key={i}
+                  artwork={() => (
+                    <Block display="flex" alignItems="center" justifyContent="center"
+                      width="28px" height="28px" $style={{ borderRadius: '50%', backgroundColor: theme.colors.backgroundSecondary, flexShrink: 0 }}>
+                      <span className={css({ ...theme.typography.LabelXSmall, color: theme.colors.contentAccent })}>
+                        {i + 1}
+                      </span>
+                    </Block>
+                  )}
+                  overrides={{ Root: { style: { paddingLeft: 0, paddingRight: 0, alignItems: 'flex-start' } } }}
+                >
+                  <ListItemLabel>
+                    <span className={css({ ...theme.typography.ParagraphSmall, color: theme.colors.contentSecondary, lineHeight: '1.6' })}>
+                      {step}
                     </span>
-                  </div>
-                  <span className={css({
-                    ...theme.typography.ParagraphSmall,
-                    color: theme.colors.contentSecondary,
-                    lineHeight: '1.6',
-                    flex: 1,
-                  })}>
-                    {step}
-                  </span>
-                </div>
+                  </ListItemLabel>
+                </ListItem>
               ))}
-            </div>
-          </div>
+            </ol>
+          </Block>
         )}
-      </div>
+      </Block>
     </Modal>
   )
 }

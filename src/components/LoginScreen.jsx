@@ -1,50 +1,29 @@
 import { useStyletron } from 'baseui'
+import { Block } from 'baseui/block'
 import { Button, SIZE } from 'baseui/button'
 
 export default function LoginScreen({ onGoogleLogin, loading }) {
   const [css, theme] = useStyletron()
 
   return (
-    <div className={css({
-      minHeight: '100vh',
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      backgroundColor: theme.colors.backgroundPrimary,
-      padding: theme.sizing.scale600,
-    })}>
-      <div className={css({
-        textAlign: 'center',
-        maxWidth: '400px',
-        width: '100%',
-      })}>
-        <div className={css({ fontSize: '3rem', marginBottom: theme.sizing.scale600 })}>
-          🍽️
-        </div>
-        <div className={css({
-          ...theme.typography.HeadingMedium,
-          marginBottom: theme.sizing.scale300,
-        })}>
-          My Meal Planner
-        </div>
-        <div className={css({
-          ...theme.typography.ParagraphMedium,
-          color: theme.colors.contentSecondary,
-          marginBottom: theme.sizing.scale900,
-        })}>
-          Plan your weekly Indian meals with personalized calorie goals
-        </div>
+    <Block display="flex" alignItems="center" justifyContent="center" minHeight="100vh" padding="scale600">
+      <Block maxWidth="400px" width="100%" $style={{ textAlign: 'center' }}>
+        <Block marginBottom="scale600">
+          <span className={css({ fontSize: '3rem' })}>🍽️</span>
+        </Block>
+        <Block marginBottom="scale300">
+          <span className={css({ ...theme.typography.HeadingMedium })}>My Meal Planner</span>
+        </Block>
+        <Block marginBottom="scale900">
+          <span className={css({ ...theme.typography.ParagraphMedium, color: theme.colors.contentSecondary })}>
+            Plan your weekly Indian meals with personalized calorie goals
+          </span>
+        </Block>
         <Button
           onClick={onGoogleLogin}
           isLoading={loading}
           size={SIZE.large}
-          overrides={{
-            BaseButton: {
-              style: {
-                width: '100%',
-              },
-            },
-          }}
+          overrides={{ BaseButton: { style: { width: '100%' } } }}
           startEnhancer={() => (
             <svg width="18" height="18" viewBox="0 0 48 48">
               <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/>
@@ -56,7 +35,7 @@ export default function LoginScreen({ onGoogleLogin, loading }) {
         >
           Sign in with Google
         </Button>
-      </div>
-    </div>
+      </Block>
+    </Block>
   )
 }

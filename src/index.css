@@ -12,25 +12,9 @@ body {
   overflow-x: hidden;
 }
 
-/* Show refresh button on card hover (desktop only) */
+/* Show action buttons on card hover (desktop only) */
 @media (min-width: 1024px) {
-  [data-card]:hover [data-refresh] {
+  [data-card]:hover [data-refresh] button {
     opacity: 1 !important;
   }
-}
-
-/* Scrollbar - minimal style */
-::-webkit-scrollbar {
-  height: 6px;
-  width: 6px;
-}
-::-webkit-scrollbar-track {
-  background: transparent;
-}
-::-webkit-scrollbar-thumb {
-  background: #ccc;
-  border-radius: 3px;
-}
-::-webkit-scrollbar-thumb:hover {
-  background: #999;
 }

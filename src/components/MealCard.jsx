@@ -1,207 +1,105 @@
 import { useStyletron } from 'baseui'
+import { Card, StyledBody } from 'baseui/card'
+import { Button, KIND, SIZE } from 'baseui/button'
 import { Skeleton } from 'baseui/skeleton'
+import { Block } from 'baseui/block'
 
-export function MealCardSkeleton() {
+const MEAL_COLORS = {
+  breakfast: 'warning400',
+  lunch: 'positive400',
+  tea: 'accent200',
+  dinner: 'accent400',
+}
+
+export function MealCardSkeleton({ mealType }) {
   const [css, theme] = useStyletron()
   return (
-    <div className={css({
-      height: '148px',
-      borderRadius: theme.borders.radius300,
-      border: `1px solid ${theme.colors.borderOpaque}`,
-      padding: theme.sizing.scale500,
-      display: 'flex',
-      flexDirection: 'column',
-      gap: theme.sizing.scale300,
-      '@media screen and (min-width: 1024px)': {
-        height: '168px',
-        padding: theme.sizing.scale600,
-      },
-    })}>
-      <Skeleton width="36px" height="36px" animation overrides={{ Root: { style: { borderRadius: '50%' } } }} />
-      <Skeleton width="80%" height="16px" animation />
-      <Skeleton width="100%" height="12px" animation />
-      <Skeleton width="50%" height="12px" animation />
-    </div>
+    <Block>
+      <div className={css({ ...theme.typography.LabelXSmall, textTransform: 'uppercase', letterSpacing: '0.08em', color: theme.colors[MEAL_COLORS[mealType]] || theme.colors.contentTertiary, marginBottom: theme.sizing.scale200 })}>
+        {mealType}
+      </div>
+      <Card overrides={{ Root: { style: { borderRadius: theme.borders.radius300 } } }}>
+        <StyledBody>
+          <Block display="flex" flexDirection="column" gridGap={theme.sizing.scale300}>
+            <Skeleton width="60%" height="18px" animation />
+            <Skeleton width="100%" height="14px" animation />
+            <Skeleton width="40%" height="14px" animation />
+          </Block>
+        </StyledBody>
+      </Card>
+    </Block>
   )
 }
 
-export default function MealCard({ meal, isRegenerating, onRegenerate, onBan, onClick }) {
+export default function MealCard({ meal, mealType, isRegenerating, onRegenerate, onBan, onClick }) {
   const [css, theme] = useStyletron()
 
   const baseServings = parseInt(meal.servingSize) || 1
   const perServingCal = Math.round(meal.calories / baseServings)
+  const color = theme.colors[MEAL_COLORS[mealType]] || theme.colors.contentAccent
 
   return (
-    <div
-      onClick={onClick}
-      data-card="true"
-      className={css({
-        height: '148px',
-        position: 'relative',
-        overflow: 'hidden',
-        opacity: isRegenerating ? 0.5 : 1,
-        cursor: 'pointer',
-        borderRadius: theme.borders.radius300,
-        border: `1px solid ${theme.colors.borderOpaque}`,
-        boxShadow: 'none',
-        transition: 'box-shadow 0.2s ease-in-out',
-        backgroundColor: theme.colors.backgroundPrimary,
-        ':hover': {
-          boxShadow: theme.lighting.shadow500,
-        },
-        '@media screen and (min-width: 1024px)': {
-          height: '168px',
-        },
-      })}
-    >
-      {isRegenerating && (
-        <div className={css({
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          right: 0,
-          bottom: 0,
-          background: 'linear-gradient(90deg, transparent 25%, rgba(255,255,255,0.5) 50%, transparent 75%)',
-          backgroundSize: '200% 100%',
-          animationName: {
-            '0%': { backgroundPosition: '200% 0' },
-            '100%': { backgroundPosition: '-200% 0' },
-          },
-          animationDuration: '1.5s',
-          animationTimingFunction: 'ease-in-out',
-          animationIterationCount: 'infinite',
-          zIndex: 1,
-        })} />
-      )}
-      <div className={css({
-        display: 'flex',
-        flexDirection: 'column',
-        gap: theme.sizing.scale100,
-        padding: theme.sizing.scale500,
-        height: '100%',
-        '@media screen and (min-width: 1024px)': {
-          padding: theme.sizing.scale600,
-        },
-      })}>
-        <div className={css({ display: 'flex', alignItems: 'center', justifyContent: 'space-between' })}>
-          <span className={css({
-            fontSize: '1.25rem',
-            lineHeight: 1,
-            '@media screen and (min-width: 1024px)': {
-              fontSize: '1.5rem',
-            },
-          })}>{meal.emoji}</span>
-          <div className={css({ display: 'flex', gap: theme.sizing.scale100 })}>
-            <button
-              onClick={(e) => { e.stopPropagation(); onBan() }}
-              disabled={isRegenerating}
-              data-refresh="true"
-              title="Never show this meal again"
-              className={css({
-                opacity: 1,
-                width: '28px',
-                height: '28px',
-                borderRadius: '50%',
-                border: 'none',
-                backgroundColor: theme.colors.backgroundSecondary,
-                cursor: 'pointer',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                transition: 'all 0.2s ease-in-out',
-                fontSize: '13px',
-                lineHeight: 1,
-                color: theme.colors.contentTertiary,
-                '@media screen and (min-width: 1024px)': {
-                  opacity: 0,
-                  width: '32px',
-                  height: '32px',
-                  backgroundColor: 'transparent',
-                },
-                ':hover': {
-                  backgroundColor: theme.colors.backgroundNegative,
-                  color: theme.colors.contentOnColor,
-                  opacity: '1 !important',
-                },
-              })}
-            >
-              ✕
-            </button>
-            <button
-              onClick={(e) => { e.stopPropagation(); onRegenerate() }}
-              disabled={isRegenerating}
-              data-refresh="true"
-              title="Swap for a different meal"
-              className={css({
-                opacity: 1,
-                width: '28px',
-                height: '28px',
-                borderRadius: '50%',
-                border: 'none',
-                backgroundColor: theme.colors.backgroundSecondary,
-                cursor: 'pointer',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                transition: 'all 0.2s ease-in-out',
-                ...theme.typography.LabelSmall,
-                color: theme.colors.contentTertiary,
-                '@media screen and (min-width: 1024px)': {
-                  opacity: 0,
-                  width: '32px',
-                  height: '32px',
-                  backgroundColor: 'transparent',
-                },
-                ':hover': {
-                  backgroundColor: theme.colors.backgroundAccent,
-                  color: theme.colors.contentOnColor,
-                  opacity: '1 !important',
-                },
-              })}
-            >
-              ↻
-            </button>
-          </div>
-        </div>
-        <div className={css({
-          ...theme.typography.LabelSmall,
-          color: theme.colors.contentPrimary,
-          marginTop: theme.sizing.scale100,
-          overflow: 'hidden',
-          textOverflow: 'ellipsis',
-          whiteSpace: 'nowrap',
-        })}>
-          {meal.name}
-        </div>
-        <div className={css({
-          ...theme.typography.ParagraphXSmall,
-          color: theme.colors.contentAccent,
-        })}>
-          {perServingCal} kcal · per serving
-        </div>
-        <div className={css({
-          flex: 1,
-          overflow: 'hidden',
-          display: '-webkit-box',
-          WebkitLineClamp: 1,
-          WebkitBoxOrient: 'vertical',
-          ...theme.typography.ParagraphXSmall,
-          color: theme.colors.contentSecondary,
-        })}>
-          {meal.description}
-        </div>
-        <div className={css({ display: 'flex', alignItems: 'center', justifyContent: 'flex-end' })}>
-          {meal.time && (
-            <span className={css({ display: 'flex', alignItems: 'center', gap: '3px', color: theme.colors.contentTertiary, ...theme.typography.ParagraphXSmall })}>
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <circle cx="12" cy="12" r="10" />
-                <polyline points="12,6 12,12 16,14" />
-              </svg>
-              {meal.time}m
-            </span>
-          )}
-        </div>
+    <Block>
+      <div className={css({ ...theme.typography.LabelXSmall, textTransform: 'uppercase', letterSpacing: '0.08em', color, marginBottom: theme.sizing.scale200 })}>
+        {mealType}
       </div>
-    </div>
+      <div data-card="true" onClick={onClick} className={css({ cursor: 'pointer', opacity: isRegenerating ? 0.5 : 1, transition: 'opacity 0.2s' })}>
+        <Card overrides={{
+          Root: {
+            style: {
+              borderRadius: theme.borders.radius300,
+              transition: 'box-shadow 0.2s',
+              ':hover': { boxShadow: theme.lighting.shadow500 },
+            },
+          },
+        }}>
+          <StyledBody>
+            <Block display="flex" alignItems="flex-start" justifyContent="space-between">
+              <Block flex="1" minWidth="0">
+                <Block display="flex" alignItems="center" gridGap={theme.sizing.scale300} marginBottom={theme.sizing.scale200}>
+                  <span className={css({ fontSize: '1.5rem', lineHeight: 1 })}>{meal.emoji}</span>
+                  <span className={css({ ...theme.typography.LabelLarge, color: theme.colors.contentPrimary, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' })}>
+                    {meal.name}
+                  </span>
+                </Block>
+                <div className={css({ ...theme.typography.ParagraphSmall, color: theme.colors.contentSecondary, display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden', marginBottom: theme.sizing.scale300 })}>
+                  {meal.description}
+                </div>
+                <Block display="flex" alignItems="center" justifyContent="space-between">
+                  <span className={css({ ...theme.typography.LabelSmall, color })}>
+                    {perServingCal} kcal / serving
+                  </span>
+                  {meal.time && (
+                    <span className={css({ ...theme.typography.ParagraphXSmall, color: theme.colors.contentTertiary })}>
+                      {meal.time}m
+                    </span>
+                  )}
+                </Block>
+              </Block>
+              <Block display="flex" flexDirection="column" gridGap={theme.sizing.scale100} marginLeft={theme.sizing.scale300}>
+                <div data-refresh="true">
+                  <Button kind={KIND.secondary} size={SIZE.mini}
+                    onClick={(e) => { e.stopPropagation(); onRegenerate() }}
+                    disabled={isRegenerating}
+                    overrides={{ BaseButton: { style: { '@media screen and (min-width: 1024px)': { opacity: 0 }, '[data-card]:hover &': { opacity: 1 } } } }}
+                  >
+                    ↻
+                  </Button>
+                </div>
+                <div data-refresh="true">
+                  <Button kind={KIND.tertiary} size={SIZE.mini}
+                    onClick={(e) => { e.stopPropagation(); onBan() }}
+                    disabled={isRegenerating}
+                    overrides={{ BaseButton: { style: { '@media screen and (min-width: 1024px)': { opacity: 0 }, '[data-card]:hover &': { opacity: 1 } } } }}
+                  >
+                    ✕
+                  </Button>
+                </div>
+              </Block>
+            </Block>
+          </StyledBody>
+        </Card>
+      </div>
+    </Block>
   )
 }
