@@ -449,8 +449,18 @@ function shuffle(arr) {
   return a
 }
 
+let _externalBanned = null
+
+export function setExternalBannedList(list) {
+  _externalBanned = list
+}
+
+function getEffectiveBanned() {
+  return _externalBanned != null ? _externalBanned : getBannedMeals()
+}
+
 function getPool(mealType, exclude = []) {
-  const banned = getBannedMeals()
+  const banned = getEffectiveBanned()
   const allExclude = [...exclude, ...banned]
   let pool = MEALS_DB[mealType].filter(m => !allExclude.includes(m.name))
   if (pool.length === 0) pool = MEALS_DB[mealType].filter(m => !banned.includes(m.name))

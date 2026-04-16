@@ -1,5 +1,5 @@
 import { useStyletron } from 'baseui'
-import { Button, SIZE as BTN_SIZE } from 'baseui/button'
+import { Button, SIZE as BTN_SIZE, KIND as BTN_KIND } from 'baseui/button'
 import { StatefulPopover, PLACEMENT } from 'baseui/popover'
 import { StatefulMenu } from 'baseui/menu'
 import ChevronDown from 'baseui/icon/chevron-down'
@@ -15,7 +15,7 @@ const CALORIE_OPTIONS = [
   { value: 3000, label: '3,000 kcal' },
 ]
 
-export default function Header({ calorieTarget, onCalorieTargetChange, onGenerate, loading, hasPlan }) {
+export default function Header({ calorieTarget, onCalorieTargetChange, onGenerate, loading, hasPlan, user, onLogout }) {
   const [css, theme] = useStyletron()
 
   const activeLabel = calorieTarget
@@ -119,6 +119,75 @@ export default function Header({ calorieTarget, onCalorieTargetChange, onGenerat
         >
           {loading ? 'Generating...' : hasPlan ? 'Regenerate' : 'Generate Plan'}
         </Button>
+
+        {/* User profile */}
+        {user && (
+          <StatefulPopover
+            placement={PLACEMENT.bottomRight}
+            content={({ close }) => (
+              <div className={css({
+                padding: theme.sizing.scale600,
+                minWidth: '200px',
+              })}>
+                <div className={css({
+                  ...theme.typography.LabelMedium,
+                  color: theme.colors.contentPrimary,
+                  marginBottom: theme.sizing.scale100,
+                })}>
+                  {user.displayName}
+                </div>
+                <div className={css({
+                  ...theme.typography.ParagraphXSmall,
+                  color: theme.colors.contentTertiary,
+                  marginBottom: theme.sizing.scale500,
+                })}>
+                  {user.email}
+                </div>
+                <Button
+                  kind={BTN_KIND.secondary}
+                  size={BTN_SIZE.compact}
+                  onClick={() => { close(); onLogout() }}
+                  overrides={{
+                    BaseButton: { style: { width: '100%' } },
+                  }}
+                >
+                  Sign out
+                </Button>
+              </div>
+            )}
+          >
+            <button className={css({
+              width: '32px',
+              height: '32px',
+              borderRadius: '50%',
+              border: `2px solid ${theme.colors.borderOpaque}`,
+              padding: 0,
+              cursor: 'pointer',
+              overflow: 'hidden',
+              backgroundColor: theme.colors.backgroundSecondary,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              transition: 'border-color 0.2s',
+              ':hover': {
+                borderColor: theme.colors.borderAccent,
+              },
+            })}>
+              {user.photoURL ? (
+                <img
+                  src={user.photoURL}
+                  alt=""
+                  referrerPolicy="no-referrer"
+                  className={css({ width: '100%', height: '100%', objectFit: 'cover' })}
+                />
+              ) : (
+                <span className={css({ ...theme.typography.LabelSmall, color: theme.colors.contentSecondary })}>
+                  {(user.displayName || user.email || '?')[0].toUpperCase()}
+                </span>
+              )}
+            </button>
+          </StatefulPopover>
+        )}
       </div>
     </header>
   )
